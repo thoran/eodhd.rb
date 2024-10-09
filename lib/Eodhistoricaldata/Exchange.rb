@@ -6,8 +6,13 @@ module Eodhistoricaldata
     @list = []
 
     class << self
-      def load(eod_client:)
-        eod_client.exchanges_list.each do |exchange|
+      def client(api_token:)
+        @client ||= Client.new(api_token: api_token)
+      end
+
+      def load(client: nil, api_token: nil)
+        client ||= self.client(api_token: api_token)
+        client.exchanges_list.each do |exchange|
           @list << self.new(
             name: exchange['Name'],
             code: exchange['Code'],
@@ -21,13 +26,12 @@ module Eodhistoricaldata
         @list
       end
 
-      def all(eod_client: nil)
-        load(eod_client: eod_client)
-        @list
+      def all(client: nil, api_token: nil)
+        load(client: client, api_token: api_token)
       end
 
-      def find(eod_client: nil, &block)
-        all(eod_client:).find{|exchange| block.call(exchange)}
+      def find(client: nil, api_token: nil, &block)
+        all(client: client, api_token: api_token).find{|exchange| block.call(exchange)}
       end
     end # class << self
 
