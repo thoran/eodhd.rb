@@ -1,11 +1,11 @@
-# Eodhistoricaldata/Client.rb
-# Eodhistoricaldata::Client
+# EodHistoricalData/Client.rb
+# EodHistoricalData::Client
 
 gem 'http.rb'
 require 'http.rb'
 require 'json'
 
-class Eodhistoricaldata
+class EodHistoricalData
   class Client
 
     API_HOST = 'eodhistoricaldata.com'
@@ -25,7 +25,7 @@ class Eodhistoricaldata
       do_request(request_string: request_string(path))
     end
 
-    def eod_data(exchange_id:, symbol:, period: 'd')
+    def eod_data(exchange_id:, symbol:, period:)
       path = "/api/eod/#{symbol}.#{exchange_id}"
       args = {period: period}
       do_request(request_string: request_string(path), args: args)
