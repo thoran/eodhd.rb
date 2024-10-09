@@ -1,7 +1,7 @@
 # Eodhistoricaldata/Exchange.rb
 # Eodhistoricaldata::Exchange
 
-module Eodhistoricaldata
+class Eodhistoricaldata
   class Exchange
     @list = []
 

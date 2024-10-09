@@ -5,7 +5,7 @@ gem 'http.rb'
 require 'http.rb'
 require 'json'
 
-module Eodhistoricaldata
+class Eodhistoricaldata
   class Client
 
     API_HOST = 'eodhistoricaldata.com'
@@ -44,6 +44,5 @@ module Eodhistoricaldata
       response = HTTP.get(request_string, args)
       JSON.parse(response.body)
     end
-
   end
 end

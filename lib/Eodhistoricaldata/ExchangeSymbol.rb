@@ -1,8 +1,8 @@
-# Eodhistoricaldata/Symbol.rb
-# Eodhistoricaldata::Symbol
+# Eodhistoricaldata/ExchangeSymbol.rb
+# Eodhistoricaldata::ExchangeSymbol
 
-module Eodhistoricaldata
-  class Symbol
+class Eodhistoricaldata
+  class ExchangeSymbol
     @list = []
 
     class << self

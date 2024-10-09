@@ -1,7 +1,7 @@
 # Eodhistoricaldata/EodData.rb
 # Eodhistoricaldata::EodData
 
-module Eodhistoricaldata
+class Eodhistoricaldata
   class EodData
     @list = []
 
