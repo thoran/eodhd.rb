@@ -25,9 +25,11 @@ class EodHistoricalData
       do_request(request_string: request_string(path))
     end
 
-    def eod_data(exchange_id:, symbol:, period:)
+    def eod_data(exchange_id:, symbol:, period:, from: nil, to: nil)
       path = "/api/eod/#{symbol}.#{exchange_id}"
       args = {period: period}
+      args.merge!(from: from) if from
+      args.merge!(to: to) if to
       do_request(request_string: request_string(path), args: args)
     end
 
@@ -40,7 +42,7 @@ class EodHistoricalData
     def do_request(request_string:, args: {})
       api_token = args[:api_token] || @api_token
       fmt = args[:fmt] || 'json'
-      args.merge!({api_token: api_token, fmt: fmt})
+      args.merge!(api_token: api_token, fmt: fmt)
       response = HTTP.get(request_string, args)
       JSON.parse(response.body)
     end

@@ -20,9 +20,9 @@ class EodHistoricalData
     EodHistoricalData::ExchangeSymbol.all(api_token: @api_token, exchange_code: exchange_code)
   end
 
-  def eod_data(exchange: nil, exchange_code: nil, exchange_symbol: nil, symbol: nil, period: nil)
+  def eod_data(exchange: nil, exchange_code: nil, exchange_symbol: nil, symbol: nil, period: nil, from: nil, to: nil)
     exchange_code ||= exchange.code
     symbol ||= exchange_symbol.code
-    EodHistoricalData::EodData.all(api_token: @api_token, exchange_code: exchange_code, symbol: symbol, period: period)
+    EodHistoricalData::EodData.all(api_token: @api_token, exchange_code: exchange_code, symbol: symbol, period: period, from: from, to: to)
   end
 end

@@ -10,10 +10,6 @@ class EodHistoricalData
         load(client: client, api_token: api_token, exchange_code: exchange_code)
       end
 
-      def find(client: nil, api_token: nil, exchange_code: nil, &block)
-        all(client: client, api_token: api_token, exchange_code: exchange_code).find{|symbol| block.call(symbol)}
-      end
-
       private
 
       def load(client: nil, api_token: nil, exchange_code: nil)

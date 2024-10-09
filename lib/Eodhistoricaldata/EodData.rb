@@ -6,19 +6,15 @@ class EodHistoricalData
     @list = []
 
     class << self
-      def all(client: nil, api_token: nil, exchange_code:, symbol:, period: 'd')
-        load(client: client, api_token: api_token, exchange_code: exchange_code, symbol: symbol, period: period)
-      end
-
-      def find(client: nil, api_token: nil, exchange_code:, symbol:, period: nil, &block)
-        all(client: client, api_token: api_token, exchange_code: exchange_code, symbol: symbol, period: period).find{|eod_data| block.call(eod_data)}
+      def all(client: nil, api_token: nil, exchange_code:, symbol:, period: 'd', from: nil, to: nil)
+        load(client: client, api_token: api_token, exchange_code: exchange_code, symbol: symbol, period: period, from: from, to: to)
       end
 
       private
 
-      def load(client: nil, api_token: nil, exchange_code:, symbol:, period:)
+      def load(client: nil, api_token: nil, exchange_code:, symbol:, period:, from:, to:)
         client ||= Client.new(api_token: api_token)
-        client.eod_data(exchange_id: exchange_code, symbol: symbol, period: period).each do |eod_data|
+        client.eod_data(exchange_id: exchange_code, symbol: symbol, period: period, from: from, to: to).each do |eod_data|
           @list << self.new(
             exchange_code: exchange_code,
             symbol: symbol,
