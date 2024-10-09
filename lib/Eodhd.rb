@@ -1,8 +1,8 @@
 # Eodhd.rb
 # Eodhd
 
-# 20240706
-# 0.13.2
+# 20240710
+# 0.13.3
 
 # Changes since 0.12:
 # -/0: Add logging.
@@ -17,6 +17,9 @@
 # 1/2: Log '?' and args only if args are present.
 # 8. ~ Eodhd::Client#log: Construct the log string in the method, constructing a log string with arguments if present.
 # 9. ~ Eodhd::Client#do_request: Call the new interface for log().
+# 2/3: Fix logging '?' for when args values are nil.
+# 10. + Eod::Client#log_args? Only need to check for whether the values are nil, since this will still work for empty args also.
+# 11. ~ Eod::Client#log: Use log_args?
 
 require_relative 'Eodhd/Client'
 require_relative 'Eodhd/EodBulkLastDay'

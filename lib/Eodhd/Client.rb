@@ -1,11 +1,11 @@
 # Eodhd/Client.rb
 # Eodhd::Client
 
+require 'Hash/x_www_form_urlencode'
 gem 'http.rb'
 require 'http.rb'
 require 'json'
 require 'logger'
-require 'Hash/x_www_form_urlencode'
 
 class Eodhd
   class Client
@@ -61,9 +61,15 @@ class Eodhd
       "https://#{API_HOST}#{path}"
     end
 
+    def log_args?(args)
+      !args.values.all?(&:nil?)
+    end
+
     def log(request_string:, args:)
       log_string = "GET #{request_string}"
-      log_string << "?#{args.x_www_form_urlencode}" unless args.empty?
+      if log_args?(args)
+        log_string << "?#{args.x_www_form_urlencode}"
+      end
       self.class.logger.info(log_string)
     end
 
