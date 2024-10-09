@@ -61,12 +61,14 @@ class Eodhd
       "https://#{API_HOST}#{path}"
     end
 
-    def log(log_string)
+    def log(request_string:, args:)
+      log_string = "GET #{request_string}"
+      log_string << "?#{args.x_www_form_urlencode}" unless args.empty?
       self.class.logger.info(log_string)
     end
 
     def do_request(request_string:, args: {})
-      log("GET #{request_string}?#{args.x_www_form_urlencode}")
+      log(request_string: request_string, args: args)
       api_token = args[:api_token] || @api_token
       fmt = args[:fmt] || 'json'
       args.merge!(api_token: api_token, fmt: fmt)

@@ -2,7 +2,7 @@
 # Eodhd
 
 # 20240706
-# 0.13.1
+# 0.13.2
 
 # Changes since 0.12:
 # -/0: Add logging.
@@ -14,6 +14,9 @@
 # 6. ~ Eodhd::Client#do_request: Call log().
 # 0/1: Add args to the log string.
 # 7. ~ Eodhd::Client#do_request: Add the args to the log string.
+# 1/2: Log '?' and args only if args are present.
+# 8. ~ Eodhd::Client#log: Construct the log string in the method, constructing a log string with arguments if present.
+# 9. ~ Eodhd::Client#do_request: Call the new interface for log().
 
 require_relative 'Eodhd/Client'
 require_relative 'Eodhd/EodBulkLastDay'
