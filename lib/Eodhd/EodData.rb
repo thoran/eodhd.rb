@@ -1,7 +1,7 @@
-# EodHistoricalData/EodData.rb
-# EodHistoricalData::EodData
+# Eodhd/EodData.rb
+# Eodhd::EodData
 
-class EodHistoricalData
+class Eodhd
   class EodData
     class << self
       def all(client: nil, api_token: nil, exchange_code:, symbol:, period: 'd', from: nil, to: nil)

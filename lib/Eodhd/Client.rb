@@ -1,16 +1,16 @@
-# EodHistoricalData/Client.rb
-# EodHistoricalData::Client
+# Eodhd/Client.rb
+# Eodhd::Client
 
 gem 'http.rb'
 require 'http.rb'
 require 'json'
 
-class EodHistoricalData
+class Eodhd
   class Client
 
-    API_HOST = 'eodhistoricaldata.com'
+    API_HOST = 'eodhd.com'
 
-    def initialize(api_token:)
+    def initialize(api_token:, logger: Eodhd.logger)
       @api_token = api_token
     end
 

@@ -1,7 +1,7 @@
-# EodHistoricalData/ExchangeSymbol.rb
-# EodHistoricalData::ExchangeSymbol
+# Eodhd/ExchangeSymbol.rb
+# Eodhd::ExchangeSymbol
 
-class EodHistoricalData
+class Eodhd
   class ExchangeSymbol
     class << self
       def all(client: nil, api_token: nil, exchange_code: nil)
