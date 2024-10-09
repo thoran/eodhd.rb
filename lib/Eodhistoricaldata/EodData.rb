@@ -16,8 +16,8 @@ class EodHistoricalData
         client ||= Client.new(api_token: api_token)
         client.eod_data(exchange_id: exchange_code, symbol: symbol, period: period, from: from, to: to).each do |eod_data|
           @list << self.new(
-            exchange_code: exchange_code,
-            symbol: symbol,
+            exchange_code: eod_data['exchange_code'],
+            symbol: eod_data['symbol'],
             date: eod_data['date'],
             open: eod_data['open'],
             high: eod_data['high'],
