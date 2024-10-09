@@ -1,34 +1,28 @@
 # Eodhistoricaldata.rb
 # Eodhistoricaldata
 
-# 20230419
-# 0.2.1
+# 20230420
+# 0.3.0
 
 require 'Pd/PasswordFile'
 require 'Pd/Password'
 
 class ApiToken
-  class << self
-    def init
-      if File.exist?(Pd::PasswordFile.encrypted_filename)
-        Pd::Password.from_csv(Pd::PasswordFile.read)
-      end
+  def initialize(label:)
+    @label = label
+    if File.exist?(Pd::PasswordFile.encrypted_filename)
+      Pd::Password.from_csv(Pd::PasswordFile.read)
     end
+  end
 
-    def label
-      'eodhistoricaldata.com-api_token'
-    end
+  def password
+    @password ||= (
+      Pd::Password.find(@label).first
+    )
+  end
 
-    def password
-      @password ||= (
-        init
-        Pd::Password.find(label).first
-      )
-    end
-
-    def api_token
-      @api_token ||= password.to_h[:password]
-    end
+  def api_token
+    @api_token ||= password.to_h[:password]
   end
 end
 
@@ -69,13 +63,29 @@ class Eodhistoricaldata
   end
 end
 
-def main
-  exchange_code = 'AU'
-  eod_client = Eodhistoricaldata.new(api_token: ApiToken.api_token)
+def exchanges(eod_client)
+  eod_client.exchanges_list.each do |exchange|
+    p exchange
+  end
+end
+
+def symbols(eod_client, exchange_code)
   symbols = eod_client.exchange_symbol_list(exchange_code: exchange_code)
   symbols.each do |symbol|
-    puts "#{exchange_code}:#{symbol["Code"]}"
-    p eod_client.eod_data(exchange_id: exchange_code, symbol: symbol["Code"])
+    puts symbol["Code"]
+  end
+end
+
+def main
+  label = 'eodhistoricaldata.com-api_token'
+  api_token = ApiToken.new(label: label).api_token
+  eod_client = Eodhistoricaldata.new(api_token: api_token)
+  case ARGV[0]
+  when 'exchanges'
+    exchanges(eod_client)
+  when 'symbols'
+    exchange_code = ARGV[1]
+    symbols(eod_client, exchange_code)
   end
 end
 
