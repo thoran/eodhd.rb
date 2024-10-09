@@ -2,7 +2,7 @@
 # Eodhistoricaldata
 
 # 20230420
-# 0.3.0
+# 0.3.1
 
 require 'Pd/PasswordFile'
 require 'Pd/Password'
@@ -10,19 +10,23 @@ require 'Pd/Password'
 class ApiToken
   def initialize(label:)
     @label = label
-    if File.exist?(Pd::PasswordFile.encrypted_filename)
-      Pd::Password.from_csv(Pd::PasswordFile.read)
-    end
+    setup
   end
 
   def password
-    @password ||= (
-      Pd::Password.find(@label).first
-    )
+    @password ||= Pd::Password.find(@label).first
   end
 
   def api_token
     @api_token ||= password.to_h[:password]
+  end
+
+  private
+
+  def setup
+    if File.exist?(Pd::PasswordFile.encrypted_filename)
+      Pd::Password.from_csv(Pd::PasswordFile.read)
+    end
   end
 end
 
@@ -31,28 +35,34 @@ require 'http.rb'
 require 'json'
 
 class Eodhistoricaldata
+  API_HOST = 'eodhistoricaldata.com'
+
   def initialize(api_token:)
     @api_token = api_token
   end
 
   # This endpoint always returns json regardless of what fmt is specified.
   def exchanges_list
-    request_string = "https://eodhistoricaldata.com/api/exchanges-list"
-    do_request(request_string: request_string)
+    path = "/api/exchanges-list"
+    do_request(request_string: request_string(path))
   end
 
   def exchange_symbol_list(exchange_code:)
-    request_string = "https://eodhistoricaldata.com/api/exchange-symbol-list/#{exchange_code}"
-    do_request(request_string: request_string)
+    path = "/api/exchange-symbol-list/#{exchange_code}"
+    do_request(request_string: request_string(path))
   end
 
   def eod_data(exchange_id:, symbol:, period: 'd')
-    request_string = "https://eodhistoricaldata.com/api/eod/#{symbol}.#{exchange_id}"
+    path = "/api/eod/#{symbol}.#{exchange_id}"
     args = {period: period}
-    do_request(request_string: request_string, args: args)
+    do_request(request_string: request_string(path), args: args)
   end
 
   private
+
+  def request_string(path)
+    "https://#{API_HOST}#{path}"
+  end
 
   def do_request(request_string:, args: {})
     api_token = args[:api_token] || @api_token
