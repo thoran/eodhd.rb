@@ -1,8 +1,8 @@
 # Eodhd.rb
 # Eodhd
 
-# 20240710
-# 0.13.3
+# 20241009
+# 0.13.4
 
 # Changes since 0.12:
 # -/0: Add logging.
@@ -20,6 +20,12 @@
 # 2/3: Fix logging '?' for when args values are nil.
 # 10. + Eod::Client#log_args? Only need to check for whether the values are nil, since this will still work for empty args also.
 # 11. ~ Eod::Client#log: Use log_args?
+# 3/4: + eod.rb.gemspec, + additional necessary library files
+# 12. + eod.rb.gemspec
+# 13. ~ Gemfile: Use gemspec.
+# 14. + lib/Hash/x_www_form_urlencode.rb
+# 15. + lib/Thoran/Hash/XWwwFormUrlEncode/x_www_form_url_encode.rb
+# 16. + lib/Thoran/String/UrlEncode/url_encode.rb
 
 require_relative 'Eodhd/Client'
 require_relative 'Eodhd/EodBulkLastDay'

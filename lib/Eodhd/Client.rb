@@ -10,6 +10,8 @@ require 'logger'
 class Eodhd
   class Client
 
+    API_HOST = 'eodhd.com'
+
     class << self
       def log_filename
         File.expand_path('~/log/eodhd/log.txt')
@@ -23,12 +25,6 @@ class Eodhd
         @logger ||= Logger.new(log_file, 'daily')
       end
     end # class << self
-
-    API_HOST = 'eodhd.com'
-
-    def initialize(api_token:)
-      @api_token = api_token
-    end
 
     # This endpoint always returns json regardless of what fmt is specified.
     def exchanges_list
@@ -56,6 +52,10 @@ class Eodhd
     end
 
     private
+
+    def initialize(api_token:)
+      @api_token = api_token
+    end
 
     def request_string(path)
       "https://#{API_HOST}#{path}"
