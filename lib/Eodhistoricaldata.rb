@@ -2,13 +2,10 @@
 # Eodhistoricaldata
 
 # 20230419
-# 0.2.0
+# 0.2.1
 
-gem 'http.rb'
-require 'http.rb'
 require 'Pd/PasswordFile'
 require 'Pd/Password'
-require 'json'
 
 class ApiToken
   class << self
@@ -35,9 +32,13 @@ class ApiToken
   end
 end
 
+gem 'http.rb'
+require 'http.rb'
+require 'json'
+
 class Eodhistoricaldata
-  def initialize
-    @api_token = ApiToken.api_token
+  def initialize(api_token:)
+    @api_token = api_token
   end
 
   # This endpoint always returns json regardless of what fmt is specified.
@@ -70,7 +71,7 @@ end
 
 def main
   exchange_code = 'AU'
-  eod_client = Eodhistoricaldata.new
+  eod_client = Eodhistoricaldata.new(api_token: ApiToken.api_token)
   symbols = eod_client.exchange_symbol_list(exchange_code: exchange_code)
   symbols.each do |symbol|
     puts "#{exchange_code}:#{symbol["Code"]}"
