@@ -3,8 +3,6 @@
 
 class EodHistoricalData
   class Exchange
-    @list = []
-
     class << self
       def all(client: nil, api_token: nil)
         load(client: client, api_token: api_token)
@@ -14,8 +12,8 @@ class EodHistoricalData
 
       def load(client: nil, api_token: nil)
         client ||= Client.new(api_token: api_token)
-        client.exchanges_list.each do |exchange|
-          @list << self.new(
+        client.exchanges_list.collect do |exchange|
+          self.new(
             name: exchange['Name'],
             code: exchange['Code'],
             operating_mic: exchange['OperatingMIC'],
@@ -25,7 +23,6 @@ class EodHistoricalData
             country_iso3: exchange['CountryISO3']
           )
         end
-        @list
       end
     end # class << self
 

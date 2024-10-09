@@ -3,8 +3,6 @@
 
 class EodHistoricalData
   class ExchangeSymbol
-    @list = []
-
     class << self
       def all(client: nil, api_token: nil, exchange_code: nil)
         load(client: client, api_token: api_token, exchange_code: exchange_code)
@@ -14,8 +12,8 @@ class EodHistoricalData
 
       def load(client: nil, api_token: nil, exchange_code: nil)
         client ||= Client.new(api_token: api_token)
-        client.exchange_symbol_list(exchange_code: exchange_code).each do |symbol|
-          @list << self.new(
+        client.exchange_symbol_list(exchange_code: exchange_code).collect do |symbol|
+          self.new(
             code: symbol['Code'],
             name: symbol['Name'],
             country: symbol['Country'],
@@ -25,7 +23,6 @@ class EodHistoricalData
             isin: symbol['Isin']
           )
         end
-        @list
       end
     end # class << self
 

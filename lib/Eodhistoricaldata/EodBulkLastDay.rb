@@ -3,8 +3,6 @@
 
 class EodHistoricalData
   class EodBulkLastDay
-    @list = []
-
     class << self
       def all(client: nil, api_token: nil, exchange_code:, date:)
         load(client: client, api_token: api_token, exchange_code: exchange_code, date:)
@@ -14,8 +12,8 @@ class EodHistoricalData
 
       def load(client: nil, api_token: nil, exchange_code:, date:)
         client ||= Client.new(api_token: api_token)
-        client.eod_bulk_last_day(exchange_id: exchange_code, date: date).each do |eod_bulk_last_day|
-          @list << self.new(
+        client.eod_bulk_last_day(exchange_id: exchange_code, date: date).collect do |eod_bulk_last_day|
+          self.new(
             code: eod_bulk_last_day['code'],
             exchange_short_name: eod_bulk_last_day['exchange_short_name'],
             date: eod_bulk_last_day['date'],
@@ -27,7 +25,6 @@ class EodHistoricalData
             volume: eod_bulk_last_day['volume']
           )
         end
-        @list
       end
     end # class << self
 

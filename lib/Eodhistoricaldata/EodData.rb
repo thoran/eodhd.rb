@@ -3,8 +3,6 @@
 
 class EodHistoricalData
   class EodData
-    @list = []
-
     class << self
       def all(client: nil, api_token: nil, exchange_code:, symbol:, period: 'd', from: nil, to: nil)
         load(client: client, api_token: api_token, exchange_code: exchange_code, symbol: symbol, period: period, from: from, to: to)
@@ -14,10 +12,10 @@ class EodHistoricalData
 
       def load(client: nil, api_token: nil, exchange_code:, symbol:, period:, from:, to:)
         client ||= Client.new(api_token: api_token)
-        client.eod_data(exchange_id: exchange_code, symbol: symbol, period: period, from: from, to: to).each do |eod_data|
-          @list << self.new(
-            exchange_code: eod_data['exchange_code'],
-            symbol: eod_data['symbol'],
+        client.eod_data(exchange_id: exchange_code, symbol: symbol, period: period, from: from, to: to).collect do |eod_data|
+          self.new(
+            exchange_code: exchange_code,
+            symbol: symbol,
             date: eod_data['date'],
             open: eod_data['open'],
             high: eod_data['high'],
@@ -27,7 +25,6 @@ class EodHistoricalData
             volume: eod_data['volume']
           )
         end
-        @list
       end
     end # class << self
 
