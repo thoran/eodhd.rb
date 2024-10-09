@@ -4,13 +4,28 @@
 gem 'http.rb'
 require 'http.rb'
 require 'json'
+require 'logger'
 
 class Eodhd
   class Client
 
+    class << self
+      def log_filename
+        File.expand_path('~/log/eodhd/log.txt')
+      end
+
+      def log_file
+        File.open(log_filename, File::WRONLY | File::APPEND | File::CREAT)
+      end
+
+      def logger
+        @logger ||= Logger.new(log_file, 'daily')
+      end
+    end # class << self
+
     API_HOST = 'eodhd.com'
 
-    def initialize(api_token:, logger: Eodhd.logger)
+    def initialize(api_token:)
       @api_token = api_token
     end
 
@@ -45,7 +60,12 @@ class Eodhd
       "https://#{API_HOST}#{path}"
     end
 
+    def log(log_string)
+      self.class.logger.info(log_string)
+    end
+
     def do_request(request_string:, args: {})
+      log("GET #{request_string}")
       api_token = args[:api_token] || @api_token
       fmt = args[:fmt] || 'json'
       args.merge!(api_token: api_token, fmt: fmt)

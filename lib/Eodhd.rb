@@ -2,12 +2,16 @@
 # Eodhd
 
 # 20240706
-# 0.12.0
+# 0.13.0
 
-# Changes since 0.11:
-# -/0: /EodHistoricalData/Eodhd/
-# 1. /EodHistoricalData/Eodhd/
-# 2. ~ Eodhd::Client::API_HOST: /eodhistoricaldta.com/eodhd.com/
+# Changes since 0.12:
+# -/0: Add logging.
+# 1. + require 'logger'
+# 2. + Eodhd::Client.log_filename
+# 3. + Eodhd::Client.log_file
+# 4. + Eodhd::Client.logger
+# 5. + Eodhd::Client#log
+# 6. ~ Eodhd::Client#do_request: Call log().
 
 require_relative 'Eodhd/Client'
 require_relative 'Eodhd/EodBulkLastDay'
