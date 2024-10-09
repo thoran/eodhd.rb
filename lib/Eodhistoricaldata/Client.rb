@@ -33,6 +33,12 @@ class EodHistoricalData
       do_request(request_string: request_string(path), args: args)
     end
 
+    def eod_bulk_last_day(exchange_id:, date:)
+      path = "/api/eod-bulk-last-day/#{exchange_id}"
+      args = {date: date}
+      do_request(request_string: request_string(path), args: args)
+    end
+
     private
 
     def request_string(path)

@@ -2,6 +2,7 @@
 # EodHistoricalData
 
 require_relative 'EodHistoricalData/Client'
+require_relative 'EodHistoricalData/EodBulkLastDay'
 require_relative 'EodHistoricalData/EodData'
 require_relative 'EodHistoricalData/Exchange'
 require_relative 'EodHistoricalData/ExchangeSymbol'
@@ -24,5 +25,10 @@ class EodHistoricalData
     exchange_code ||= exchange.code
     symbol ||= exchange_symbol.code
     EodHistoricalData::EodData.all(api_token: @api_token, exchange_code: exchange_code, symbol: symbol, period: period, from: from, to: to)
+  end
+
+  def eod_bulk_last_day(exchange: nil, exchange_code: nil, date:)
+    exchange_code ||= exchange.code
+    EodHistoricalData::EodBulkLastDay.all(api_token: @api_token, exchange_code: exchange_code, date: date)
   end
 end
