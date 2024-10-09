@@ -2,7 +2,7 @@
 # Eodhistoricaldata
 
 # 20230412
-# 0.1.0
+# 0.1.1
 
 gem 'http.rb'
 require 'http.rb'
@@ -42,7 +42,7 @@ def exchange_symbol_list(exchange_code:)
   JSON.parse(response.body)
 end
 
-def eod_data(symbol:, exchange_id:, period: 'd')
+def eod_data(exchange_id:, symbol:, period: 'd')
   request_string = "https://eodhistoricaldata.com/api/eod/#{symbol}.#{exchange_id}"
   args = {api_token: api_token, fmt: 'json', period: period}
   response = HTTP.get(request_string, args)
@@ -55,6 +55,7 @@ def main
     p exchange
     exchange_symbol_list(exchange_code: exchange["Code"]).each do |symbol|
       puts "#{exchange["Code"]}:#{symbol["Code"]}"
+      p eod_data(exchange_id: exchange["Code"], symbol: symbol["Code"])
     end
   end
 end
