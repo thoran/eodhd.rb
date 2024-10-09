@@ -2,7 +2,7 @@
 # Eodhistoricaldata
 
 # 20230420
-# 0.4.0
+# 0.4.1
 
 require 'Pd/PasswordFile'
 require 'Pd/Password'
@@ -51,13 +51,13 @@ class Eodhistoricaldata
         @list
       end
 
-      def all
-        load(eod_client: eod_client, exchange_code: exchange_code)
+      def all(eod_client: nil)
+        load(eod_client: eod_client)
         @list
       end
 
-      def find(&block)
-        all.find{|exchange| block.call(exchange)}
+      def find(eod_client: nil, &block)
+        all(eod_client:).find{|exchange| block.call(exchange)}
       end
     end # class << self
 
@@ -107,8 +107,8 @@ class Eodhistoricaldata
         @list
       end
 
-      def find(&block)
-        all.find{|symbol| block.call(symbol)}
+      def find(eod_client: nil, exchange_code: nil, &block)
+        all(eod_client: eod_client, exchange_code: exchange_code).find{|symbol| block.call(symbol)}
       end
     end # class << self
 
@@ -195,6 +195,12 @@ def main
     Eodhistoricaldata::Symbol.all(eod_client: eod_client, exchange_code: exchange.code).each do |symbol|
       p symbol
     end
+  when 'symbol'
+    operating_mic = ARGV[1]
+    code = ARGV[2]
+    exchange = Eodhistoricaldata::Exchange.find(eod_client: eod_client){|exchange| exchange.operating_mic == operating_mic}
+    symbol = Eodhistoricaldata::Symbol.find(eod_client: eod_client, exchange_code: exchange.code){|symbol| symbol.code == code}
+    p symbol
   end
 end
 
