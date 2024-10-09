@@ -5,6 +5,7 @@ gem 'http.rb'
 require 'http.rb'
 require 'json'
 require 'logger'
+require 'Hash/x_www_form_urlencode'
 
 class Eodhd
   class Client
@@ -65,7 +66,7 @@ class Eodhd
     end
 
     def do_request(request_string:, args: {})
-      log("GET #{request_string}")
+      log("GET #{request_string}?#{args.x_www_form_urlencode}")
       api_token = args[:api_token] || @api_token
       fmt = args[:fmt] || 'json'
       args.merge!(api_token: api_token, fmt: fmt)

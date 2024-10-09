@@ -2,7 +2,7 @@
 # Eodhd
 
 # 20240706
-# 0.13.0
+# 0.13.1
 
 # Changes since 0.12:
 # -/0: Add logging.
@@ -12,6 +12,8 @@
 # 4. + Eodhd::Client.logger
 # 5. + Eodhd::Client#log
 # 6. ~ Eodhd::Client#do_request: Call log().
+# 0/1: Add args to the log string.
+# 7. ~ Eodhd::Client#do_request: Add the args to the log string.
 
 require_relative 'Eodhd/Client'
 require_relative 'Eodhd/EodBulkLastDay'
