@@ -1,8 +1,8 @@
 # Eodhd.rb
 # Eodhd
 
-# 20241009
-# 0.13.4
+# 20250319
+# 0.13.6
 
 # Changes since 0.12:
 # -/0: Add logging.
@@ -18,14 +18,26 @@
 # 8. ~ Eodhd::Client#log: Construct the log string in the method, constructing a log string with arguments if present.
 # 9. ~ Eodhd::Client#do_request: Call the new interface for log().
 # 2/3: Fix logging '?' for when args values are nil.
-# 10. + Eod::Client#log_args? Only need to check for whether the values are nil, since this will still work for empty args also.
-# 11. ~ Eod::Client#log: Use log_args?
-# 3/4: + eod.rb.gemspec, + additional necessary library files
-# 12. + eod.rb.gemspec
+# 10. + Eodhd::Client#log_args? Only need to check for whether the values are nil, since this will still work for empty args also.
+# 11. ~ Eodhd::Client#log: Use log_args?
+# 3/4: + eodhd.rb.gemspec, + additional necessary library files
+# 12. + eodhd.rb.gemspec
 # 13. ~ Gemfile: Use gemspec.
 # 14. + lib/Hash/x_www_form_urlencode.rb
 # 15. + lib/Thoran/Hash/XWwwFormUrlEncode/x_www_form_url_encode.rb
 # 16. + lib/Thoran/String/UrlEncode/url_encode.rb
+# 4/5: Create a directory for the log file when running for the first time and also allow specification of the log file path.
+# 17. ~ Eodhd::Client#log_file: Create the log file directory if necessary.
+# 18. ~ Eodhd::Client: + attr_writer :log_file_path
+# 19. + Eodhd::Client#default_log_file_path
+# 20. ~ Eodhd::Client: /log_filename/log_file_path/
+# 5/6: Error handling for HTTP responses.
+# 21. + Eodhd::Client#handle_response
+# 22. + Eodhd::Client#get
+# 23. ~ Eodhd::Client#do_request: Accepts a verb and a path now as well as arguments, instead of a request string and arguments.
+# 23. + Eodhd::Error
+# 24. ~ Eodhd::Client#log: + verb argument
+# 25. ~ Eodhd::Client public methods: Use get() and handle_response().
 
 require_relative 'Eodhd/Client'
 require_relative 'Eodhd/EodBulkLastDay'

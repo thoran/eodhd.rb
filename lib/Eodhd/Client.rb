@@ -9,12 +9,28 @@ require 'json'
 require 'logger'
 
 class Eodhd
+  class Error < RuntimeError
+    attr_reader :code, :message, :body
+
+    private
+
+    def initialize(code:, message:, body:)
+      @code = code
+      @message = message
+      @body = body
+    end
+  end
+
   class Client
 
     API_HOST = 'eodhd.com'
 
     class << self
       attr_writer :log_file_path
+
+      def path_prefix
+        '/api'
+      end
 
       def default_log_file_path
         File.join(%w{~ log eodhd log.txt})
@@ -36,27 +52,27 @@ class Eodhd
 
     # This endpoint always returns json regardless of what fmt is specified.
     def exchanges_list
-      path = "/api/exchanges-list"
-      do_request(request_string: request_string(path))
+      response = get(path: '/exchanges-list'))
+      handle_response(response)
     end
 
     def exchange_symbol_list(exchange_code:)
-      path = "/api/exchange-symbol-list/#{exchange_code}"
-      do_request(request_string: request_string(path))
+      response = get(path: "/exchange-symbol-list/#{exchange_code}")
+      handle_response(response)
     end
 
     def eod_data(exchange_id:, symbol:, period:, from: nil, to: nil)
-      path = "/api/eod/#{symbol}.#{exchange_id}"
       args = {period: period}
       args.merge!(from: from) if from
       args.merge!(to: to) if to
-      do_request(request_string: request_string(path), args: args)
+      response = get(path: "/eod/#{symbol}.#{exchange_id}", args: args)
+      handle_response(response)
     end
 
     def eod_bulk_last_day(exchange_id:, date:)
-      path = "/api/eod-bulk-last-day/#{exchange_id}"
       args = {date: date}
-      do_request(request_string: request_string(path), args: args)
+      response = get(path: "/eod-bulk-last-day/#{exchange_id}", args: args)
+      handle_response(response)
     end
 
     private
@@ -66,28 +82,43 @@ class Eodhd
     end
 
     def request_string(path)
-      "https://#{API_HOST}#{path}"
+      "https://#{API_HOST}#{self.class.path_prefix}#{path}"
     end
 
     def log_args?(args)
       !args.values.all?(&:nil?)
     end
 
-    def log(request_string:, args:)
-      log_string = "GET #{request_string}"
+    def log(verb:, request_string:, args:)
+      log_string = "#{verb} #{request_string}"
       if log_args?(args)
         log_string << "?#{args.x_www_form_urlencode}"
       end
       self.class.logger.info(log_string)
     end
 
-    def do_request(request_string:, args: {})
-      log(request_string: request_string, args: args)
+    def do_request(verb:, path:, args: {})
+      log(verb: verb, request_string: request_string(path), args: args)
       api_token = args[:api_token] || @api_token
       fmt = args[:fmt] || 'json'
       args.merge!(api_token: api_token, fmt: fmt)
-      response = HTTP.get(request_string, args)
-      JSON.parse(response.body)
+      HTTP.send(verb.to_s.downcase, request_string(path), args)
+    end
+
+    def get(path:, args: {})
+      do_request(verb: 'GET', path: path, args: args)
+    end
+
+    def handle_response(response)
+      if response.success?
+        JSON.parse(response.body)
+      else
+        raise Eodhd::Error.new(
+          code: response.code,
+          message: response.message,
+          body: response.body,
+        )
+      end
     end
   end
 end

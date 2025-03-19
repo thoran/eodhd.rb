@@ -1,7 +1,7 @@
 Gem::Specification.new do |spec|
   spec.name = 'eodhd.rb'
 
-  spec.version = '0.13.5'
+  spec.version = '0.13.6'
   spec.date = '2025-03-19'
 
   spec.summary = "Access the eodhd.com API with Ruby."
