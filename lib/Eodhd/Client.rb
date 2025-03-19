@@ -1,6 +1,7 @@
 # Eodhd/Client.rb
 # Eodhd::Client
 
+require 'fileutils'
 require 'Hash/x_www_form_urlencode'
 gem 'http.rb'
 require 'http.rb'
@@ -13,12 +14,19 @@ class Eodhd
     API_HOST = 'eodhd.com'
 
     class << self
-      def log_filename
-        File.expand_path('~/log/eodhd/log.txt')
+      attr_writer :log_file_path
+
+      def default_log_file_path
+        File.join(%w{~ log eodhd log.txt})
+      end
+
+      def log_file_path
+        File.expand_path(@log_file_path || default_log_file_path)
       end
 
       def log_file
-        File.open(log_filename, File::WRONLY | File::APPEND | File::CREAT)
+        FileUtils.mkdir_p(File.dirname(log_file_path))
+        File.open(log_file_path, File::WRONLY | File::APPEND | File::CREAT)
       end
 
       def logger
