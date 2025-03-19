@@ -2,7 +2,7 @@
 # Eodhd
 
 # 20250319
-# 0.13.6
+# 0.13.7
 
 # Changes since 0.12:
 # -/0: Add logging.
@@ -38,6 +38,11 @@
 # 23. + Eodhd::Error
 # 24. ~ Eodhd::Client#log: + verb argument
 # 25. ~ Eodhd::Client public methods: Use get() and handle_response().
+# 6/7. Logging for HTTP errors.
+# 26. ~ Eodhd::Client: /log()/log_request()/
+# 27. + Eodhd::Client#log_error
+# 28. ~ Eodhd::Client#do_request: /log/log_request/.
+# 29. ~ Eodhd::Client#handle_response: Use log_error().
 
 require_relative 'Eodhd/Client'
 require_relative 'Eodhd/EodBulkLastDay'

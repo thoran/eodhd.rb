@@ -89,7 +89,7 @@ class Eodhd
       !args.values.all?(&:nil?)
     end
 
-    def log(verb:, request_string:, args:)
+    def log_request(verb:, request_string:, args:)
       log_string = "#{verb} #{request_string}"
       if log_args?(args)
         log_string << "?#{args.x_www_form_urlencode}"
@@ -97,8 +97,13 @@ class Eodhd
       self.class.logger.info(log_string)
     end
 
+    def log_error(code:, message:, body:)
+      log_string = "#{code}\n#{message}\n#{body}"
+      self.class.logger.error(log_string)
+    end
+
     def do_request(verb:, path:, args: {})
-      log(verb: verb, request_string: request_string(path), args: args)
+      log_request(verb: verb, request_string: request_string(path), args: args)
       api_token = args[:api_token] || @api_token
       fmt = args[:fmt] || 'json'
       args.merge!(api_token: api_token, fmt: fmt)
@@ -113,10 +118,15 @@ class Eodhd
       if response.success?
         JSON.parse(response.body)
       else
+        log_error(
+          code: response.code,
+          message: response.message,
+          body: response.body
+        )
         raise Eodhd::Error.new(
           code: response.code,
           message: response.message,
-          body: response.body,
+          body: response.body
         )
       end
     end
