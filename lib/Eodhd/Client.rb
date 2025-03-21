@@ -52,7 +52,7 @@ class Eodhd
 
     # This endpoint always returns json regardless of what fmt is specified.
     def exchanges_list
-      response = get(path: '/exchanges-list'))
+      response = get(path: '/exchanges-list')
       handle_response(response)
     end
 

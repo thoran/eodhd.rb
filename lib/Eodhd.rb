@@ -1,8 +1,8 @@
 # Eodhd.rb
 # Eodhd
 
-# 20250319
-# 0.13.7
+# 20250321
+# 0.13.8
 
 # Changes since 0.12:
 # -/0: Add logging.
@@ -43,6 +43,8 @@
 # 27. + Eodhd::Client#log_error
 # 28. ~ Eodhd::Client#do_request: /log/log_request/.
 # 29. ~ Eodhd::Client#handle_response: Use log_error().
+# 7/8. Fix typo.
+# 30. ~ Eodhd::Client#exchanges_list: Remove extraneous parenthesis.
 
 require_relative 'Eodhd/Client'
 require_relative 'Eodhd/EodBulkLastDay'
