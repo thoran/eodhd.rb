@@ -2,25 +2,15 @@
 # Eodhd::Client
 
 require 'fileutils'
-require 'Hash/x_www_form_urlencode'
 gem 'http.rb'
 require 'http.rb'
 require 'json'
 require 'logger'
 
+require_relative './Error'
+require_relative '../Hash/x_www_form_urlencode'
+
 class Eodhd
-  class Error < RuntimeError
-    attr_reader :code, :message, :body
-
-    private
-
-    def initialize(code:, message:, body:)
-      @code = code
-      @message = message
-      @body = body
-    end
-  end
-
   class Client
 
     API_HOST = 'eodhd.com'
