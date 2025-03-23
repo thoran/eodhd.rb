@@ -1,8 +1,8 @@
 # Eodhd.rb
 # Eodhd
 
-# 20250321
-# 0.14.0
+# 20250323
+# 0.14.1
 
 # Changes since 0.13:
 # -/0: Add WebSockets.
@@ -14,6 +14,10 @@
 # 6. + Eodhd#forex_stream
 # 7. + Eodhd#crypto_stream
 # 8. Moved Eodhd::Error from Eodhd::Client to a separate file.
+# 0/1: Some fixes for the WebSocketClient interface.
+# 9. ~ Eodhd::WebSocketClient: + attr_accessor :consumer
+# 10. ~ Eodhd::WebSocketClient: /attr_accessor :symbols/attr_reader :symbols/
+# 11. + Eodhd::WebSocketClient#symbols=
 
 require_relative 'Eodhd/Client'
 require_relative 'Eodhd/EodBulkLastDay'

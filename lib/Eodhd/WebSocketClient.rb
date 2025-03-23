@@ -102,6 +102,18 @@ class Eodhd
       end
     end # class << self
 
+    attr_accessor\
+      :api_token,
+      :asset_class,
+      :consumer
+
+    attr_reader\
+      :symbols
+
+    def symbols=(symbols)
+      @symbols = format_symbols(symbols)
+    end
+
     def run
       Iodine.threads = 1
       Iodine.connect(url: url, handler: Handler.new(symbols: @symbols, consumer: @consumer))
@@ -111,11 +123,6 @@ class Eodhd
     end
 
     private
-
-    attr_accessor\
-      :api_token,
-      :asset_class,
-      :symbols
 
     def initialize(api_token:, asset_class:, symbols:, consumer:)
       @api_token = api_token
