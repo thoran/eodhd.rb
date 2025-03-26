@@ -1,8 +1,8 @@
 # Eodhd.rb
 # Eodhd
 
-# 20250323
-# 0.14.1
+# 20250326
+# 0.14.2
 
 # Changes since 0.13:
 # -/0: Add WebSockets.
@@ -18,6 +18,8 @@
 # 9. ~ Eodhd::WebSocketClient: + attr_accessor :consumer
 # 10. ~ Eodhd::WebSocketClient: /attr_accessor :symbols/attr_reader :symbols/
 # 11. + Eodhd::WebSocketClient#symbols=
+# 1/2: Remove reference to currently unused library UnixTime.
+# 12. ~ Eodhd::WebSocketClient: - require 'UnixTime'
 
 require_relative 'Eodhd/Client'
 require_relative 'Eodhd/EodBulkLastDay'

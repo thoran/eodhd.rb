@@ -9,8 +9,7 @@
 #   iv.  Crypto: wss://ws.eodhistoricaldata.com/ws/crypto?api_token=XXX
 
 require 'iodine'
-require 'JSON'
-require 'UnixTime'
+require 'json' # This line doesn't seem to be necessary in Ruby 3.
 
 class Eodhd
   class WebSocketClient
