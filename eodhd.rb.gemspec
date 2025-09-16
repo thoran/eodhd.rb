@@ -1,8 +1,10 @@
+require_relative './lib/Eodhd/VERSION'
+
 Gem::Specification.new do |spec|
   spec.name = 'eodhd.rb'
 
-  spec.version = '0.14.2'
-  spec.date = '2025-03-26'
+  spec.version = Eodhd::VERSION
+  spec.date = '2025-09-16'
 
   spec.summary = "Access the eodhd.com API with Ruby."
   spec.description = "Access the eodhd.com API with Ruby."

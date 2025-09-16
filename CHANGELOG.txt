@@ -1,0 +1,39 @@
+# CHANGELOG.txt
+
+## [0.15.0] - 2025-09-16, Add validations, response logging, a version constant, and CHANGELOG.
+
+- + Eodhd::Validations
+- + Eodhd::Client#validate_arguments
+- ~ Eodhd::Client#exchange_symbol_list: Use validate_arguments().
+- ~ Eodhd::Client#eod_data: Use validate_arguments().
+- ~ Eodhd::Client#eod_bulk_last_day: Use validate_arguments().
+- + Eodhd::Client#log_response
+- ~ Eodhd::Client#do_request: Call log_request() after construction of args.
+- ~ Eodhd::Client#handle_response: Use log_response().
+- + Eodhd::VERSION
+- ~ eodhd.gemspec: Use Eodhd::VERSION and update the date.
+- + CHANGELOG.txt
+
+
+## [0.14.2] - 2025-03-26, Remove reference to currently unused library UnixTime.
+
+- ~ Eodhd::WebSocketClient: - require 'UnixTime'
+
+
+## [0.14.1] - 2025-03-23, Some fixes for the WebSocketClient interface.
+
+- ~ Eodhd::WebSocketClient: + attr_accessor :consumer
+- ~ Eodhd::WebSocketClient: /attr_accessor :symbols/attr_reader :symbols/
+- + Eodhd::WebSocketClient#symbols=
+
+
+## [0.14.0] - 2025-03-21, Add WebSockets.
+
+- + Eodhd::WebSocketClient
+- + Eodhd#web_socket
+- + Eodhd#stream
+- + Eodhd#us_quote_stream
+- + Eodhd#us_trade_stream
+- + Eodhd#forex_stream
+- + Eodhd#crypto_stream
+- ~ Eodhd::Error: lib/Eodhd/Client.rb --> lib/Eodhd/Error.rb

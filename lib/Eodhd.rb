@@ -1,26 +1,6 @@
 # Eodhd.rb
 # Eodhd
 
-# 20250326
-# 0.14.2
-
-# Changes since 0.13:
-# -/0: Add WebSockets.
-# 1. + Eodhd::WebSocketClient
-# 2. + Eodhd#web_socket
-# 3. + Eodhd#stream
-# 4. + Eodhd#us_quote_stream
-# 5. + Eodhd#us_trade_stream
-# 6. + Eodhd#forex_stream
-# 7. + Eodhd#crypto_stream
-# 8. Moved Eodhd::Error from Eodhd::Client to a separate file.
-# 0/1: Some fixes for the WebSocketClient interface.
-# 9. ~ Eodhd::WebSocketClient: + attr_accessor :consumer
-# 10. ~ Eodhd::WebSocketClient: /attr_accessor :symbols/attr_reader :symbols/
-# 11. + Eodhd::WebSocketClient#symbols=
-# 1/2: Remove reference to currently unused library UnixTime.
-# 12. ~ Eodhd::WebSocketClient: - require 'UnixTime'
-
 require_relative 'Eodhd/Client'
 require_relative 'Eodhd/EodBulkLastDay'
 require_relative 'Eodhd/EodData'

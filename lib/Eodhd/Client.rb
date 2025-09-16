@@ -1,8 +1,9 @@
 # Eodhd/Client.rb
 # Eodhd::Client
 
-require 'fileutils'
 gem 'http.rb'
+
+require 'fileutils'
 require 'http.rb'
 require 'json'
 require 'logger'
@@ -47,11 +48,19 @@ class Eodhd
     end
 
     def exchange_symbol_list(exchange_code:)
+      validate_arguments(exchange_code: exchange_code)
       response = get(path: "/exchange-symbol-list/#{exchange_code}")
       handle_response(response)
     end
 
     def eod_data(exchange_id:, symbol:, period:, from: nil, to: nil)
+      validate_arguments(
+        exchange_id: exchange_id,
+        symbol: symbol,
+        period: period,
+        from: from,
+        to: to
+      )
       args = {period: period}
       args.merge!(from: from) if from
       args.merge!(to: to) if to
@@ -60,6 +69,7 @@ class Eodhd
     end
 
     def eod_bulk_last_day(exchange_id:, date:)
+      validate_arguments(exchange_id: exchange_id, date: date)
       args = {date: date}
       response = get(path: "/eod-bulk-last-day/#{exchange_id}", args: args)
       handle_response(response)
@@ -69,6 +79,16 @@ class Eodhd
 
     def initialize(api_token:)
       @api_token = api_token
+    end
+
+    def validate_arguments(exchange_code: nil, exchange_id: nil, symbol: nil, period: nil, from: nil, to: nil, date: nil)
+      exchange_code ||= exchange_id
+      validate_exchange_code!(exchange_code) if exchange_code
+      validate_symbol!(symbol) if symbol
+      validate_period!(period) if period
+      validate_date!(from, 'from') if from
+      validate_date!(to, 'to') if to
+      validate_date_range!(from, to) if from && to
     end
 
     def request_string(path)
@@ -87,16 +107,21 @@ class Eodhd
       self.class.logger.info(log_string)
     end
 
+    def log_response(code:, message:, body:)
+      log_string = "#{code}\n#{message}\n#{body}"
+      self.class.logger.info(log_string)
+    end
+
     def log_error(code:, message:, body:)
       log_string = "#{code}\n#{message}\n#{body}"
       self.class.logger.error(log_string)
     end
 
     def do_request(verb:, path:, args: {})
-      log_request(verb: verb, request_string: request_string(path), args: args)
       api_token = args[:api_token] || @api_token
       fmt = args[:fmt] || 'json'
       args.merge!(api_token: api_token, fmt: fmt)
+      log_request(verb: verb, request_string: request_string(path), args: args)
       HTTP.send(verb.to_s.downcase, request_string(path), args)
     end
 
@@ -106,18 +131,12 @@ class Eodhd
 
     def handle_response(response)
       if response.success?
-        JSON.parse(response.body)
+        parsed_body = JSON.parse(response.body)
+        log_response(code: response.code, message: response.message, body: response.body) if use_logging?
+        parsed_body
       else
-        log_error(
-          code: response.code,
-          message: response.message,
-          body: response.body
-        )
-        raise Eodhd::Error.new(
-          code: response.code,
-          message: response.message,
-          body: response.body
-        )
+        log_error(code: response.code, message: response.message, body: response.body)
+        raise Eodhd::Error.new(code: response.code, message: response.message, body: response.body)
       end
     end
   end
