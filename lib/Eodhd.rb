@@ -6,6 +6,7 @@ require_relative './Eodhd/EodBulkLastDay'
 require_relative './Eodhd/EodData'
 require_relative './Eodhd/Exchange'
 require_relative './Eodhd/ExchangeSymbol'
+require_relative './Eodhd/Intraday'
 require_relative './Eodhd/WebSocketClient'
 
 class Eodhd
@@ -34,13 +35,13 @@ class Eodhd
     Eodhd::EodBulkLastDay.all(api_token: @api_token, exchange_code: exchange_code, date: date)
   end
 
+  def intraday(exchange: nil, exchange_code: nil, symbol:, interval:, from: nil, to: nil)
+    exchange_code ||= exchange&.code || 'US'
+    Eodhd::Intraday.all(api_token: @api_token, exchange_code: exchange_code, symbol: symbol, interval: interval, from: from, to: to)
+  end
+
   def web_socket(asset_class:, symbols:)
-    Eodhd::WebSocketClient.new(
-      api_token: @api_token,
-      asset_class: asset_class,
-      symbols: symbols,
-      consumer: @consumer,
-    )
+    Eodhd::WebSocketClient.new(api_token: @api_token, asset_class: asset_class, symbols: symbols, consumer: @consumer)
   end
 
   def stream(asset_class:, symbols:)

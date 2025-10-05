@@ -2,6 +2,7 @@ require_relative "helper"
 
 describe Eodhd do
   let(:api_token){ENV.fetch('EODHD_API_TOKEN', '<API_TOKEN>')}
+
   let(:eodhd){Eodhd.new(api_token: api_token)}
 
   describe "#exchanges" do
@@ -44,6 +45,17 @@ describe Eodhd do
         _(bulk_last_day).must_be_kind_of(Array)
         _(bulk_last_day).wont_be_empty
         _(bulk_last_day.first).must_be_kind_of(Eodhd::EodBulkLastDay)
+      end
+    end
+  end
+
+  describe "#intraday" do
+    it "delegates to Eodhd::Intraday.all" do
+      VCR.use_cassette('eodhd_intraday') do
+        intraday_data = eodhd.intraday(exchange_code: 'US', symbol: 'AAPL', interval: '5m')
+        _(intraday_data).must_be_kind_of(Array)
+        _(intraday_data).wont_be_empty
+        _(intraday_data.first).must_be_kind_of(Eodhd::Intraday)
       end
     end
   end
