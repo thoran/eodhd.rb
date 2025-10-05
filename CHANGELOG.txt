@@ -1,5 +1,15 @@
 # CHANGELOG.txt
 
+## [0.17.0] - 2025-10-05, + intraday endpoint
+- + Eodhd::Intraday: Model for intraday data.
+- + Eodhd::Client#intraday: Fetch intraday data for US stocks.
+- + Eodhd#intraday: Facade method for intraday data.
+- + Eodhd::Validations#validate_interval: Validation of intraday intervals (1m, 5m, 15m, 30m, 1h, 4h, 1d, 1w, 1mo).
+- ~ Eodhd::Validations#validate_arguments: + interval argument.
+- ~ test/validations_test.rb: + tests for validate_interval.
+- ~ test/client_test.rb: + tests for intraday endpoint.
+- ~ test/eodhd_test.rb: + tests for intraday facade method.
+
 ## [0.16.0] - 2025-10-05, + automated tests, + DefaultLogger, fix WebSocket bugs, improve validations
 - + Eodhd::DefaultLogger: A shared logger for Client and WebSocketClient.
 - ~ Eodhd::Client: Use DefaultLogger.

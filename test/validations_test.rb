@@ -92,6 +92,21 @@ describe "Eodhd::Validations" do
     end
   end
 
+  describe "#validate_interval" do
+    it "accepts valid intervals" do
+      _{v.validate_interval('1m')}.must_be_silent
+      _{v.validate_interval('5m')}.must_be_silent
+      _{v.validate_interval('1h')}.must_be_silent
+      _{v.validate_interval('1d')}.must_be_silent
+    end
+
+    it "rejects invalid intervals" do
+      _{v.validate_interval('2m')}.must_raise(ArgumentError)
+      _{v.validate_interval('invalid')}.must_raise(ArgumentError)
+      _{v.validate_interval('')}.must_raise(ArgumentError)
+    end
+  end
+
   describe "#validate_date" do
     it "accepts valid date formats and Date objects" do
       _{v.validate_date('2024-09-30')}.must_be_silent

@@ -53,6 +53,22 @@ describe Eodhd::Client do
     end
   end
 
+  describe "#intraday" do
+    it "intraday returns parsed JSON array" do
+      VCR.use_cassette('client_intraday') do
+        result = client.intraday(exchange_code: 'US', symbol: 'AAPL', interval: '5m')
+        _(result).must_be_kind_of(Array)
+        _(result.first.keys).must_equal(%w{timestamp gmtoffset datetime open high low close volume})
+      end
+    end
+
+    it "raises Eodhd::Error on failure" do
+      VCR.use_cassette('client_intraday_401_error') do
+        _{client.intraday(exchange_code: 'US', symbol: 'AAPL', interval: '5m')}.must_raise(Eodhd::Error)
+      end
+    end
+  end
+
   describe "#eod_bulk_last_day" do
     it "eod_bulk_last_day returns parsed JSON array" do
       VCR.use_cassette("client_eod_bulk_last_day") do

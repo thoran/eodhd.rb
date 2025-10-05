@@ -44,9 +44,7 @@ class Eodhd
         from: from,
         to: to
       )
-      args = {period: period}
-      args.merge!(from: from) if from
-      args.merge!(to: to) if to
+      args = {period: period, from: from, to: to}.compact
       response = get(path: "/eod/#{symbol}.#{exchange_id}", args: args)
       handle_response(response)
     end
@@ -55,6 +53,19 @@ class Eodhd
       validate_arguments(exchange_id: exchange_id, date: date)
       args = {date: date}
       response = get(path: "/eod-bulk-last-day/#{exchange_id}", args: args)
+      handle_response(response)
+    end
+
+    def intraday(exchange_code:, symbol:, interval:, from: nil, to: nil)
+      validate_arguments(
+        exchange_code: exchange_code,
+        symbol: symbol,
+        interval: interval,
+        from: from,
+        to: to
+      )
+      args = {interval: interval, from: from, to: to}.compact
+      response = get(path: "/intraday/#{symbol}.#{exchange_code}", args: args)
       handle_response(response)
     end
 

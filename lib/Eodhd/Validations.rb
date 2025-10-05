@@ -3,11 +3,12 @@
 
 class Eodhd
   module Validations
-    def validate_arguments(exchange_code: nil, exchange_id: nil, symbol: nil, period: nil, from: nil, to: nil, date: nil)
+    def validate_arguments(exchange_code: nil, exchange_id: nil, symbol: nil, period: nil, interval: nil, from: nil, to: nil, date: nil)
       exchange_code ||= exchange_id
       validate_exchange_code(exchange_code)
       validate_symbol(symbol)
       validate_period(period)
+      validate_interval(interval)
       validate_date(from, 'from')
       validate_date(to, 'to')
       validate_date_range(from, to)
@@ -35,6 +36,14 @@ class Eodhd
       valid_periods = %w[d w m]
       unless valid_periods.include?(period)
         raise ArgumentError, "Invalid period '#{period}'. Must be one of: #{valid_periods.join(', ')}"
+      end
+    end
+
+    def validate_interval(interval)
+      return unless interval
+      valid_intervals = %w[1m 5m 15m 30m 1h 4h 1d 1w 1mo]
+      unless valid_intervals.include?(interval)
+        raise ArgumentError, "Invalid interval: #{interval}. Must be one of: #{valid_intervals.join(', ')}"
       end
     end
 
