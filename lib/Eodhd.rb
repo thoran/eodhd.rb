@@ -1,12 +1,12 @@
 # Eodhd.rb
 # Eodhd
 
-require_relative 'Eodhd/Client'
-require_relative 'Eodhd/EodBulkLastDay'
-require_relative 'Eodhd/EodData'
-require_relative 'Eodhd/Exchange'
-require_relative 'Eodhd/ExchangeSymbol'
-require_relative 'Eodhd/WebSocketClient'
+require_relative './Eodhd/Client'
+require_relative './Eodhd/EodBulkLastDay'
+require_relative './Eodhd/EodData'
+require_relative './Eodhd/Exchange'
+require_relative './Eodhd/ExchangeSymbol'
+require_relative './Eodhd/WebSocketClient'
 
 class Eodhd
   def initialize(api_token:, consumer: nil)

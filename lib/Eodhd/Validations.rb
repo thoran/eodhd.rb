@@ -1,16 +1,26 @@
 # Eodhd/Validations.rb
 # Eodhd::Validations
 
-module Eodhd
+class Eodhd
   module Validations
-    def validate_exchange_code!(exchange_code)
+    def validate_arguments(exchange_code: nil, exchange_id: nil, symbol: nil, period: nil, from: nil, to: nil, date: nil)
+      exchange_code ||= exchange_id
+      validate_exchange_code(exchange_code)
+      validate_symbol(symbol)
+      validate_period(period)
+      validate_date(from, 'from')
+      validate_date(to, 'to')
+      validate_date_range(from, to)
+    end
+
+    def validate_exchange_code(exchange_code)
       return unless exchange_code
       unless exchange_code.match?(/\A[A-Z]{2,6}\z/)
         raise ArgumentError, "Invalid exchange_code '#{exchange_code}'. Must be 2-6 uppercase letters"
       end
     end
 
-    def validate_symbol!(symbol)
+    def validate_symbol(symbol)
       return unless symbol
       if symbol.strip.empty?
         raise ArgumentError, "Symbol cannot be empty"
@@ -20,7 +30,7 @@ module Eodhd
       end
     end
 
-    def validate_period!(period)
+    def validate_period(period)
       return unless period
       valid_periods = %w[d w m]
       unless valid_periods.include?(period)
@@ -28,7 +38,7 @@ module Eodhd
       end
     end
 
-    def validate_date!(date, param_name = 'date')
+    def validate_date(date, param_name = 'date')
       return unless date
       case date
       when Date
@@ -47,7 +57,7 @@ module Eodhd
       end
     end
 
-    def validate_date_range!(from, to)
+    def validate_date_range(from, to)
       return unless from && to
       from_date = from.is_a?(Date) ? from : Date.parse(from.to_s)
       to_date = to.is_a?(Date) ? to : Date.parse(to.to_s)

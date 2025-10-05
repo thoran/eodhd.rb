@@ -9,41 +9,23 @@
 #   iv.  Crypto: wss://ws.eodhistoricaldata.com/ws/crypto?api_token=XXX
 
 require 'iodine'
-require 'json' # This line doesn't seem to be necessary in Ruby 3.
+require 'json'
+
+require_relative './DefaultLogger'
+require_relative './Error'
 
 class Eodhd
   class WebSocketClient
     API_HOST = 'ws.eodhistoricaldata.com'
 
     class Handler
-      class << self
-        attr_writer :log_file_path
-
-        def default_log_file_path
-          File.join(%w{~ log eodhd log.txt})
-        end
-
-        def log_file_path
-          File.expand_path(@log_file_path || default_log_file_path)
-        end
-
-        def log_file
-          FileUtils.mkdir_p(File.dirname(log_file_path))
-          File.open(log_file_path, File::WRONLY | File::APPEND | File::CREAT)
-        end
-
-        def logger
-          @logger ||= Logger.new(log_file, 'daily')
-        end
-      end # class << self
-
       def on_open(connection)
         connection.write({action: 'subscribe', symbols: @symbols}.to_json)
       end
 
       def on_message(connection, message)
         dataframe = handle_response(message)
-        @consumer.call(dataframe)
+        @consumer.call(dataframe) if @consumer
       end
 
       def on_close(connection)
@@ -52,29 +34,26 @@ class Eodhd
 
       private
 
-      def initialize(symbols:, consumer:)
+      def initialize(symbols:, consumer:, logger: nil)
         @symbols = symbols
         @consumer = consumer
+        @logger = logger
       end
 
       def log_error(code:, message:, body:)
         log_string = "WebSocketError #{code}\n#{message}\n#{body}"
-        self.class.logger.error(log_string)
+        @logger.error(log_string) if use_logging?
       end
 
       def handle_response(message)
-        if parsed_json = JSON.parse(message)
-          parsed_json
-        else
-          log_error(
-            message: response.message,
-          )
-          raise Eodhd::Error.new(
-            code: 'ws',
-            message: response.message,
-            body: ''
-          )
-        end
+        JSON.parse(message)
+      rescue StandardError => e
+        log_error(code: 'ws_parse_error', message: e.message, body: message)
+        raise Eodhd::Error.new(code: 'ws_parse_error', message: e.message, body: message)
+      end
+
+      def use_logging?
+        !@logger.nil?
       end
     end
 
@@ -104,7 +83,8 @@ class Eodhd
     attr_accessor\
       :api_token,
       :asset_class,
-      :consumer
+      :consumer,
+      :logger
 
     attr_reader\
       :symbols
@@ -115,7 +95,7 @@ class Eodhd
 
     def run
       Iodine.threads = 1
-      Iodine.connect(url: url, handler: Handler.new(symbols: @symbols, consumer: @consumer))
+      Iodine.connect(url: url, handler: Handler.new(symbols: @symbols, consumer: @consumer, logger: @logger))
       Iodine.start
     rescue SystemExit, Interrupt
       return
@@ -123,11 +103,16 @@ class Eodhd
 
     private
 
-    def initialize(api_token:, asset_class:, symbols:, consumer:)
+    def initialize(api_token:, asset_class:, symbols:, consumer:, logger: nil, use_default_logger: false)
       @api_token = api_token
       @asset_class = asset_class # crypto, forex, us-quote, us
       @symbols = format_symbols(symbols)
       @consumer = consumer
+      @logger = use_default_logger ? DefaultLogger.logger : logger
+    end
+
+    def use_logging?
+      !@logger.nil?
     end
 
     def format_symbols(symbols)

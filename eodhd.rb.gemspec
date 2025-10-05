@@ -4,7 +4,7 @@ Gem::Specification.new do |spec|
   spec.name = 'eodhd.rb'
 
   spec.version = Eodhd::VERSION
-  spec.date = '2025-09-16'
+  spec.date = '2025-10-05'
 
   spec.summary = "Access the eodhd.com API with Ruby."
   spec.description = "Access the eodhd.com API with Ruby."
@@ -17,6 +17,15 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.5'
 
   spec.add_dependency('http.rb')
+  spec.add_dependency('iodine')
+
+  spec.add_development_dependency('rake')
+  spec.add_development_dependency('minitest')
+  spec.add_development_dependency('minitest-spec-context')
+  spec.add_development_dependency('webmock')
+  spec.add_development_dependency('vcr')
+  spec.add_development_dependency('simplecov')
+
   spec.files = [
     'eodhd.rb.gemspec',
     'Gemfile',

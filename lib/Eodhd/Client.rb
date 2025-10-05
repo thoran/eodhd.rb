@@ -3,13 +3,13 @@
 
 gem 'http.rb'
 
-require 'fileutils'
 require 'http.rb'
 require 'json'
-require 'logger'
 
+require_relative './DefaultLogger'
 require_relative './Error'
 require_relative '../Hash/x_www_form_urlencode'
+require_relative './Validations'
 
 class Eodhd
   class Client
@@ -17,29 +17,12 @@ class Eodhd
     API_HOST = 'eodhd.com'
 
     class << self
-      attr_writer :log_file_path
-
       def path_prefix
         '/api'
       end
-
-      def default_log_file_path
-        File.join(%w{~ log eodhd log.txt})
-      end
-
-      def log_file_path
-        File.expand_path(@log_file_path || default_log_file_path)
-      end
-
-      def log_file
-        FileUtils.mkdir_p(File.dirname(log_file_path))
-        File.open(log_file_path, File::WRONLY | File::APPEND | File::CREAT)
-      end
-
-      def logger
-        @logger ||= Logger.new(log_file, 'daily')
-      end
     end # class << self
+
+    include Validations
 
     # This endpoint always returns json regardless of what fmt is specified.
     def exchanges_list
@@ -75,20 +58,15 @@ class Eodhd
       handle_response(response)
     end
 
+    attr_accessor\
+      :api_token,
+      :logger
+
     private
 
-    def initialize(api_token:)
+    def initialize(api_token: nil, logger: nil, use_default_logger: false)
       @api_token = api_token
-    end
-
-    def validate_arguments(exchange_code: nil, exchange_id: nil, symbol: nil, period: nil, from: nil, to: nil, date: nil)
-      exchange_code ||= exchange_id
-      validate_exchange_code!(exchange_code) if exchange_code
-      validate_symbol!(symbol) if symbol
-      validate_period!(period) if period
-      validate_date!(from, 'from') if from
-      validate_date!(to, 'to') if to
-      validate_date_range!(from, to) if from && to
+      @logger = use_default_logger ? DefaultLogger.logger : logger
     end
 
     def request_string(path)
@@ -104,24 +82,24 @@ class Eodhd
       if log_args?(args)
         log_string << "?#{args.x_www_form_urlencode}"
       end
-      self.class.logger.info(log_string)
+      @logger.info(log_string)
     end
 
     def log_response(code:, message:, body:)
       log_string = "#{code}\n#{message}\n#{body}"
-      self.class.logger.info(log_string)
+      @logger.info(log_string)
     end
 
     def log_error(code:, message:, body:)
       log_string = "#{code}\n#{message}\n#{body}"
-      self.class.logger.error(log_string)
+      @logger.error(log_string)
     end
 
     def do_request(verb:, path:, args: {})
       api_token = args[:api_token] || @api_token
       fmt = args[:fmt] || 'json'
       args.merge!(api_token: api_token, fmt: fmt)
-      log_request(verb: verb, request_string: request_string(path), args: args)
+      log_request(verb: verb, request_string: request_string(path), args: args) if use_logging?
       HTTP.send(verb.to_s.downcase, request_string(path), args)
     end
 
@@ -135,9 +113,13 @@ class Eodhd
         log_response(code: response.code, message: response.message, body: response.body) if use_logging?
         parsed_body
       else
-        log_error(code: response.code, message: response.message, body: response.body)
+        log_error(code: response.code, message: response.message, body: response.body) if use_logging?
         raise Eodhd::Error.new(code: response.code, message: response.message, body: response.body)
       end
+    end
+
+    def use_logging?
+      !@logger.nil?
     end
   end
 end

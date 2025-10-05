@@ -1,7 +1,28 @@
 # CHANGELOG.txt
 
-## [0.15.0] - 2025-09-16, Add validations, response logging, a version constant, and CHANGELOG.
+## [0.16.0] - 2025-10-05, + automated tests, + DefaultLogger, fix WebSocket bugs, improve validations
+- + Eodhd::DefaultLogger: A shared logger for Client and WebSocketClient.
+- ~ Eodhd::Client: Use DefaultLogger.
+- ~ Eodhd::Client#initialize: + logger, use_default_logger arguments.
+- + Eodhd::Client#use_logging?
+- ~ Eodhd::Validations: Move validate_arguments() from Client to Validations.
+- ~ Eodhd::Validations: Remove ! from all validation methods (validate_exchange_code, validate_symbol, etc).
+- ~ Eodhd::WebSocketClient: Use DefaultLogger, add logger attribute.
+- ~ Eodhd::WebSocketClient#initialize: + logger, use_default_logger arguments.
+- + Eodhd::WebSocketClient#use_logging?: Check if logging is enabled.
+- ~ Eodhd::WebSocketClient::Handler: Remove duplicate logger code.
+- ~ Eodhd::WebSocketClient::Handler#initialize: + logger argument.
+- ~ Eodhd::WebSocketClient::Handler#handle_response: Fix JSON parsing with proper StandardError rescue.
+- ~ Eodhd::WebSocketClient::Handler#log_error: Use instance logger with use_logging? check.
+- + test/validations_test.rb: Comprehensive validation tests with edge cases.
+- + test/client_test.rb: REST client tests with VCR for all endpoints.
+- + test/eodhd_test.rb: Facade delegation tests.
+- + test/web_socket_client_test.rb: WebSocket client tests with stubbed Iodine.
+- + test/helper.rb: VCR configuration with WebMock.
+- ~ eodhd.gemspec: Add iodine as runtime dependency.
+- ~ .gitignore: + Gemfile.lock.
 
+## [0.15.0] - 2025-09-16, Add validations, response logging, a version constant, and CHANGELOG.
 - + Eodhd::Validations
 - + Eodhd::Client#validate_arguments
 - ~ Eodhd::Client#exchange_symbol_list: Use validate_arguments().
@@ -14,21 +35,15 @@
 - ~ eodhd.gemspec: Use Eodhd::VERSION and update the date.
 - + CHANGELOG.txt
 
-
 ## [0.14.2] - 2025-03-26, Remove reference to currently unused library UnixTime.
-
 - ~ Eodhd::WebSocketClient: - require 'UnixTime'
 
-
 ## [0.14.1] - 2025-03-23, Some fixes for the WebSocketClient interface.
-
 - ~ Eodhd::WebSocketClient: + attr_accessor :consumer
 - ~ Eodhd::WebSocketClient: /attr_accessor :symbols/attr_reader :symbols/
 - + Eodhd::WebSocketClient#symbols=
 
-
 ## [0.14.0] - 2025-03-21, Add WebSockets.
-
 - + Eodhd::WebSocketClient
 - + Eodhd#web_socket
 - + Eodhd#stream
