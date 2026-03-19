@@ -1,5 +1,9 @@
 # eodhd.rb/CHANGELOG
 
+## [0.19.1] - 2026-07-19, blank lines before the code fences in the README
+- ~ README.md: + a blank line before each code fence, without which the highlighting does not render.
+- ~ Eodhd/VERSION: /0.19.0/0.19.1/
+
 ## [0.19.0] - 2026-07-19, complete the fundamentals model wrapping
 - + Eodhd::Fundamentals::Financials::BalanceSheet::Entry: Typed entry for a balance sheet period (64 fields).
 - + Eodhd::Fundamentals::Financials::IncomeStatement::Entry: Typed entry for an income statement period (34 fields).

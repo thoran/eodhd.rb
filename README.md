@@ -7,14 +7,19 @@ Access the eodhd.com API with Ruby.
 ## Installation
 
 Add this line to your application's Gemfile:
+
 ```ruby
   gem 'eodhd.rb'
 ```
+
 And then execute:
+
 ```bash
   $ bundle
 ```
+
 Or install it yourself as:
+
 ```bash
   $ gem install eodhd.rb
 ```
@@ -22,17 +27,20 @@ Or install it yourself as:
 ## Usage
 
 ### Setup
+
 ```ruby
 api_token = 'api_token'
 eodhd = Eodhd.new(api_token: api_token)
 ```
 
 ### List of Exchanges
+
 ```ruby
 eodhd.exchanges
 ```
 
 ### List of Exchange Symbols
+
 ```ruby
 exchange = eodhd.exchanges.first
 
@@ -42,6 +50,7 @@ eodhd.exchange_symbols(exchange_code: exchange.code)
 ```
 
 ### Retrieve EOD Data For One Symbol
+
 ```ruby
 exchange = eodhd.exchanges.first
 exchange_symbol = eodhd.exchange_symbols(exchange: exchange).first
@@ -56,6 +65,7 @@ eodhd.eod_data(exchange_code: exchange.code, symbol: exchange_symbol.code)
 ```
 
 ### Retrieve EOD Data For Multiple Symbols For One Date
+
 ```ruby
 exchange = eodhd.exchanges.first
 
@@ -65,6 +75,7 @@ eodhd.eod_bulk_last_day(exchange_code: exchange.code, date: Date.today)
 ```
 
 ### Retrieve Intraday Data
+
 ```ruby
 eodhd.intraday(symbol: 'AAPL', exchange_code: 'US', interval: '5m')
 # OR with date range (from and to are Unix timestamps)
@@ -72,6 +83,7 @@ eodhd.intraday(symbol: 'AAPL', exchange_code: 'US', interval: '1h', from: 169611
 ```
 
 ### Retrieve Fundamental Data
+
 ```ruby
 fd = eodhd.fundamentals(exchange_code: 'US', symbol: 'AAPL')
 
@@ -109,6 +121,7 @@ fd.earnings.annual
 ```
 
 #### Use the filter parameter to request only specific sections
+
 ```ruby
 eodhd.fundamentals(exchange_code: 'US', symbol: 'AAPL', filter: 'General')
 eodhd.fundamentals(exchange_code: 'US', symbol: 'AAPL', filter: 'Financials::Income_Statement::quarterly')
@@ -117,6 +130,7 @@ eodhd.fundamentals(exchange_code: 'US', symbol: 'AAPL', filter: 'Financials::Inc
 ### WebSockets
 
 #### Streaming requires a callable consumer (a proc, lambda, or any object responding to `call`) to handle incoming data frames
+
 ```ruby
 consumer = ->(data){puts data}
 eodhd = Eodhd.new(api_token: api_token, consumer: consumer)
@@ -128,6 +142,7 @@ eodhd.crypto_stream('BTC-USD')
 ```
 
 #### Or use the general interface
+
 ```ruby
 eodhd.stream(asset_class: 'us', symbols: 'AAPL,MSFT')
 ```
