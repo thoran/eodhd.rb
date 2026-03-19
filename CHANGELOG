@@ -1,5 +1,30 @@
 # eodhd.rb/CHANGELOG
 
+## [0.19.0] - 2026-07-19, complete the fundamentals model wrapping
+- + Eodhd::Fundamentals::Financials::BalanceSheet::Entry: Typed entry for a balance sheet period (64 fields).
+- + Eodhd::Fundamentals::Financials::IncomeStatement::Entry: Typed entry for an income statement period (34 fields).
+- + Eodhd::Fundamentals::Financials::CashFlow::Entry: Typed entry for a cash flow period (32 fields).
+- + Eodhd::Fundamentals::Earnings::AnnualEntry
+- + Eodhd::Fundamentals::Earnings::HistoryEntry
+- + Eodhd::Fundamentals::Earnings::TrendEntry
+- + Eodhd::Fundamentals::Holders::Institution: Typed entry for an institutional holder.
+- + Eodhd::Fundamentals::Holders::Fund: Typed entry for a fund holder.
+- + Eodhd::Fundamentals::InsiderTransaction: Typed entry for an insider transaction.
+- + Eodhd::Fundamentals::OutstandingShares::Entry: Typed entry for an outstanding shares data point.
+- + Eodhd::Fundamentals::OutstandingShares: Wraps annual and quarterly OutstandingShares::Entry arrays.
+- + Eodhd::Fundamentals::Financials::BalanceSheet
+- + Eodhd::Fundamentals::Financials::IncomeStatement
+- + Eodhd::Fundamentals::Financials::CashFlow
+- ~ Eodhd::Fundamentals::Financials: Build BalanceSheet/IncomeStatement/CashFlow instead of the shared Statement.
+- ~ Eodhd::Fundamentals::Financials::BalanceSheet#yearly, #quarterly: Now sorted arrays of typed entries, was raw hashes.
+- ~ Eodhd::Fundamentals::Earnings#annual, #history, #trend: Now sorted arrays of typed entries, was raw hashes.
+- ~ Eodhd::Fundamentals::Holders#institutions, #funds: Now arrays of typed entries, was raw hashes.
+- ~ Eodhd::Fundamentals#insider_transactions: Now a sorted array of InsiderTransaction, was a raw hash.
+- ~ Eodhd::Fundamentals#outstanding_shares: Now an OutstandingShares object, was a raw hash.
+- + test/Eodhd/Fundamentals_test.rb: Cover the newly wrapped entry types and collections.
+- - Eodhd::Fundamentals::Financials::Statement: Replaced by the three per-statement classes.
+- ~ Eodhd/VERSION: /0.18.1/0.19.0/
+
 ## [0.18.1] - 2026-07-19, urlencode helper naming consistency
 - /Thoran::String::UrlEncode#url_encode/Thoran::String::Urlencode#urlencode/ (url_encode kept as an alias).
 - /Thoran::Hash::XWwwFormUrlEncode#x_www_form_url_encode/Thoran::Hash::XWwwFormUrlencode#x_www_form_urlencode/ (x_www_form_url_encode kept as an alias).

@@ -8,6 +8,8 @@ require_relative './Fundamentals/Financials'
 require_relative './Fundamentals/General'
 require_relative './Fundamentals/Highlights'
 require_relative './Fundamentals/Holders'
+require_relative './Fundamentals/InsiderTransaction'
+require_relative './Fundamentals/OutstandingShares'
 require_relative './Fundamentals/SharesStats'
 require_relative './Fundamentals/SplitsDividends'
 require_relative './Fundamentals/Technicals'
@@ -75,11 +77,16 @@ class Eodhd
       @splits_dividends = SplitsDividends.new(splits_dividends) if splits_dividends
       @analyst_ratings = AnalystRatings.new(analyst_ratings) if analyst_ratings
       @holders = Holders.new(holders) if holders
-      @insider_transactions = insider_transactions
+      @insider_transactions = wrap_insider_transactions(insider_transactions)
       @esg_scores = ESGScores.new(esg_scores) if esg_scores
-      @outstanding_shares = outstanding_shares
+      @outstanding_shares = OutstandingShares.new(outstanding_shares) if outstanding_shares
       @earnings = Earnings.new(earnings) if earnings
       @financials = Financials.new(financials) if financials
+    end
+
+    def wrap_insider_transactions(entries)
+      return [] unless entries
+      entries.values.map{|entry| InsiderTransaction.new(entry)}.sort_by(&:date)
     end
   end
 end

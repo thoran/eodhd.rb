@@ -1,6 +1,9 @@
 # Eodhd/Fundamentals/Holders.rb
 # Eodhd::Fundamentals::Holders
 
+require_relative './Holders/Institution'
+require_relative './Holders/Fund'
+
 class Eodhd
   class Fundamentals
     class Holders
@@ -11,8 +14,13 @@ class Eodhd
       private
 
       def initialize(data)
-        @institutions = data['Institutions']
-        @funds = data['Funds']
+        @institutions = wrap(data['Institutions'], Institution)
+        @funds = wrap(data['Funds'], Fund)
+      end
+
+      def wrap(entries, entry_class)
+        return [] unless entries
+        entries.values.map{|entry| entry_class.new(entry)}
       end
     end
   end
