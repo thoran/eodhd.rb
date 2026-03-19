@@ -1,10 +1,20 @@
 require_relative './lib/Eodhd/VERSION'
 
+class Gem::Specification
+  def dependencies=(gems)
+    gems.each{|gem| add_dependency(*gem)}
+  end
+
+  def development_dependencies=(gems)
+    gems.each{|gem| add_development_dependency(*gem)}
+  end
+end
+
 Gem::Specification.new do |spec|
   spec.name = 'eodhd.rb'
 
   spec.version = Eodhd::VERSION
-  spec.date = '2025-10-05'
+  spec.date = '2026-03-19'
 
   spec.summary = "Access the eodhd.com API with Ruby."
   spec.description = "Access the eodhd.com API with Ruby."
@@ -12,26 +22,34 @@ Gem::Specification.new do |spec|
   spec.author = 'thoran'
   spec.email = 'code@thoran.com'
   spec.homepage = 'http://github.com/thoran/eodhd.rb'
-  spec.license = 'Ruby'
+  spec.license = 'MIT'
 
-  spec.required_ruby_version = '>= 2.5'
-
-  spec.add_dependency('http.rb')
-  spec.add_dependency('iodine')
-
-  spec.add_development_dependency('rake')
-  spec.add_development_dependency('minitest')
-  spec.add_development_dependency('minitest-spec-context')
-  spec.add_development_dependency('webmock')
-  spec.add_development_dependency('vcr')
-  spec.add_development_dependency('simplecov')
+  spec.required_ruby_version = '>= 2.7'
 
   spec.files = [
+    'CHANGELOG',
     'eodhd.rb.gemspec',
     'Gemfile',
     Dir['lib/**/*.rb'],
+    'Rakefile',
     'README.md',
     Dir['test/**/*.rb']
   ].flatten
+
   spec.require_paths = ['lib']
+
+  spec.dependencies = %w{
+    http.rb
+    iodine
+  }
+
+  spec.development_dependencies = %w{
+    rake
+    minitest
+    minitest-mock
+    minitest-spec-context
+    webmock
+    vcr
+    simplecov
+  }
 end

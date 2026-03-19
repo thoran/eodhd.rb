@@ -39,6 +39,8 @@ class Eodhd
       :adjusted_close,
       :volume
 
+    private
+
     def initialize(code:, exchange_short_name:, date:, open:, high:, low:, close:, adjusted_close:, volume:)
       @code = code
       @exchange_short_name = exchange_short_name

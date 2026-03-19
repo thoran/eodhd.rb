@@ -69,6 +69,13 @@ class Eodhd
       handle_response(response)
     end
 
+    def fundamentals(exchange_code:, symbol:, filter: nil)
+      validate_arguments(exchange_code: exchange_code, symbol: symbol)
+      args = {filter: filter}.compact
+      response = get(path: "/fundamentals/#{symbol}.#{exchange_code}", args: args)
+      handle_response(response)
+    end
+
     attr_accessor\
       :api_token,
       :logger

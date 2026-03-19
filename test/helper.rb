@@ -1,4 +1,7 @@
+# helper.rb
+
 require 'minitest/autorun'
+require 'minitest/mock'
 require 'minitest/spec'
 require 'minitest-spec-context'
 require 'vcr'

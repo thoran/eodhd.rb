@@ -35,6 +35,8 @@ class Eodhd
       :type,
       :isin
 
+    private
+
     def initialize(code:, name:, country:, exchange:, currency:, type:, isin:)
       @code = code
       @name = name

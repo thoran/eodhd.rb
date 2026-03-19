@@ -1,4 +1,6 @@
-require_relative 'helper'
+# Eodhd/WebSocketClient_test.rb
+
+require_relative '../helper'
 
 describe Eodhd::WebSocketClient do
   let(:api_token){ENV.fetch('EODHD_API_TOKEN', '<API_TOKEN>')}
@@ -53,10 +55,10 @@ describe Eodhd::WebSocketClient do
   describe "#run" do
     it "configures Iodine and starts connection" do
       client = Eodhd::WebSocketClient.new(api_token: api_token, asset_class: 'us', symbols: 'AAPL', consumer: consumer)
-      
+
       iodine_connect_called = false
       iodine_start_called = false
-      
+
       Iodine.stub(:threads=, nil) do
         Iodine.stub(:connect, ->(opts){iodine_connect_called = true}) do
           Iodine.stub(:start, ->{iodine_start_called = true}) do
@@ -64,7 +66,7 @@ describe Eodhd::WebSocketClient do
           end
         end
       end
-      
+
       _(iodine_connect_called).must_equal(true)
       _(iodine_start_called).must_equal(true)
     end
@@ -76,10 +78,10 @@ describe Eodhd::WebSocketClient do
         received_data = nil
         test_consumer = ->(data){received_data = data}
         handler = Eodhd::WebSocketClient::Handler.new(symbols: 'AAPL', consumer: test_consumer, logger: nil)
-        
+
         message = '{"symbol":"AAPL","price":150.0}'
         handler.on_message(nil, message)
-        
+
         _(received_data).must_be_kind_of(Hash)
         _(received_data['symbol']).must_equal('AAPL')
         _(received_data['price']).must_equal(150.0)
@@ -88,7 +90,7 @@ describe Eodhd::WebSocketClient do
       it "raises Eodhd::Error on invalid JSON" do
         test_consumer = ->(data){}
         handler = Eodhd::WebSocketClient::Handler.new(symbols: 'AAPL', consumer: test_consumer, logger: nil)
-        
+
         invalid_message = '{invalid json'
         _{handler.on_message(nil, invalid_message)}.must_raise(Eodhd::Error)
       end

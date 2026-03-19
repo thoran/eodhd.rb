@@ -1,8 +1,9 @@
+# Eodhd_test.rb
+
 require_relative "helper"
 
 describe Eodhd do
   let(:api_token){ENV.fetch('EODHD_API_TOKEN', '<API_TOKEN>')}
-
   let(:eodhd){Eodhd.new(api_token: api_token)}
 
   describe "#exchanges" do
@@ -56,6 +57,16 @@ describe Eodhd do
         _(intraday_data).must_be_kind_of(Array)
         _(intraday_data).wont_be_empty
         _(intraday_data.first).must_be_kind_of(Eodhd::Intraday)
+      end
+    end
+  end
+
+  describe "#fundamentals" do
+    it "delegates to Eodhd::Fundamentals.all" do
+      VCR.use_cassette('eodhd_fundamentals') do
+        fundamental_data = eodhd.fundamentals(exchange_code: 'US', symbol: 'AAPL')
+        _(fundamental_data).must_be_kind_of(Eodhd::Fundamentals)
+        _(fundamental_data.general).must_be_kind_of(Eodhd::Fundamentals::General)
       end
     end
   end

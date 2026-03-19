@@ -1,10 +1,12 @@
-require_relative 'helper'
+# Eodhd/Validations_test.rb
+
+require_relative '../helper'
 
 class DummyIncludingValidations
   include Eodhd::Validations
 end
 
-describe "Eodhd::Validations" do
+describe Eodhd::Validations do
   let(:v){DummyIncludingValidations.new}
 
   describe "#validate_arguments" do

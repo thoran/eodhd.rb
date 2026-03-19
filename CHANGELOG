@@ -1,4 +1,34 @@
-# CHANGELOG.txt
+# eodhd.rb/CHANGELOG
+
+## [0.18.0] - 2026-03-20, + fundamentals endpoint
+- + Eodhd::Fundamentals: Model for fundamental data with typed sub-objects.
+- + Eodhd::Fundamentals::General
+- + Eodhd::Fundamentals::Highlights
+- + Eodhd::Fundamentals::Valuation
+- + Eodhd::Fundamentals::SharesStats
+- + Eodhd::Fundamentals::Technicals
+- + Eodhd::Fundamentals::SplitsDividends
+- + Eodhd::Fundamentals::AnalystRatings
+- + Eodhd::Fundamentals::Holders
+- + Eodhd::Fundamentals::ESGScores
+- + Eodhd::Fundamentals::Earnings
+- + Eodhd::Fundamentals::Financials
+- + Eodhd::Fundamentals::Financials::Statement
+- + Eodhd::Client#fundamentals: Fetch fundamental data for a symbol.
+- + Eodhd#fundamentals: Facade method for fundamental data.
+- + test/Eodhd/Fundamentals_test.rb
+- ~ test/Eodhd/Client_test.rb: + tests for fundamentals endpoint.
+- ~ test/Eodhd_test.rb: + test for fundamentals facade method.
+- ~ test/helper.rb: + require 'minitest/mock' for minitest 6 compatibility.
+- ~ Eodhd: Move initialize, web_socket, stream to private.
+- ~ Eodhd: + safe navigation (&.) on exchange and exchange_symbol across all methods.
+- ~ Eodhd#intraday: + exchange_symbol argument.
+- ~ Eodhd#intraday: - default exchange_code of 'US'
+- ~ test/: Reorganise test files into test/Eodhd/ subdirectory.
+- - test/test_all.rb: Previously replaced by Rakefile.
+- /CHANGELOG.txt/CHANGELOG/
+- + LICENSE: MIT License.
+- ~ README.md: Rewrite with intraday, fundamentals, and WebSocket documentation.
 
 ## [0.17.0] - 2025-10-05, + intraday endpoint
 - + Eodhd::Intraday: Model for intraday data.

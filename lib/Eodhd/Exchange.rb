@@ -35,6 +35,8 @@ class Eodhd
       :country_iso2,
       :country_iso3
 
+    private
+
     def initialize(name:, code:, operating_mic:, country:, currency:, country_iso2:, country_iso3:)
       @name = name
       @code = code
