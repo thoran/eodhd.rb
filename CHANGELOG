@@ -1,5 +1,12 @@
 # eodhd.rb/CHANGELOG
 
+## [0.18.1] - 2026-07-19, urlencode helper naming consistency
+- /Thoran::String::UrlEncode#url_encode/Thoran::String::Urlencode#urlencode/ (url_encode kept as an alias).
+- /Thoran::Hash::XWwwFormUrlEncode#x_www_form_url_encode/Thoran::Hash::XWwwFormUrlencode#x_www_form_urlencode/ (x_www_form_url_encode kept as an alias).
+- ~ lib/Hash/x_www_form_urlencode.rb: Renamed urlencode require path.
+- ~ eodhd.rb.gemspec: - spec.date (RubyGems stamps the build date); tidy spec.require_paths placement.
+- ~ Eodhd/VERSION: /0.18.0/0.18.1/
+
 ## [0.18.0] - 2026-03-20, + fundamentals endpoint
 - + Eodhd::Fundamentals: Model for fundamental data with typed sub-objects.
 - + Eodhd::Fundamentals::General

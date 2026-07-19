@@ -12,9 +12,7 @@ end
 
 Gem::Specification.new do |spec|
   spec.name = 'eodhd.rb'
-
   spec.version = Eodhd::VERSION
-  spec.date = '2026-03-19'
 
   spec.summary = "Access the eodhd.com API with Ruby."
   spec.description = "Access the eodhd.com API with Ruby."
@@ -24,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.homepage = 'http://github.com/thoran/eodhd.rb'
   spec.license = 'MIT'
 
+  spec.require_paths = ['lib']
   spec.required_ruby_version = '>= 2.7'
 
   spec.files = [
@@ -35,8 +34,6 @@ Gem::Specification.new do |spec|
     'README.md',
     Dir['test/**/*.rb']
   ].flatten
-
-  spec.require_paths = ['lib']
 
   spec.dependencies = %w{
     http.rb
