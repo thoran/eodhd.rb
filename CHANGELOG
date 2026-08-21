@@ -1,134 +1,176 @@
-# eodhd.rb/CHANGELOG
+# CHANGELOG
 
-## [0.19.2] - 2026-08-21, populate the .gitignore
-- ~ .gitignore: + current default contents. The file held only its filename comment, having been committed that way.
-- ~ Eodhd/VERSION: /0.19.1/0.19.2/
+## 20260821
 
-## [0.19.1] - 2026-07-19, blank lines before the code fences in the README
-- ~ README.md: + a blank line before each code fence, without which the highlighting does not render.
-- ~ Eodhd/VERSION: /0.19.0/0.19.1/
+0.19.3: Rewrite the CHANGELOG in the form changelogger writes.
 
-## [0.19.0] - 2026-07-19, complete the fundamentals model wrapping
-- + Eodhd::Fundamentals::Financials::BalanceSheet::Entry: Typed entry for a balance sheet period (64 fields).
-- + Eodhd::Fundamentals::Financials::IncomeStatement::Entry: Typed entry for an income statement period (34 fields).
-- + Eodhd::Fundamentals::Financials::CashFlow::Entry: Typed entry for a cash flow period (32 fields).
-- + Eodhd::Fundamentals::Earnings::AnnualEntry
-- + Eodhd::Fundamentals::Earnings::HistoryEntry
-- + Eodhd::Fundamentals::Earnings::TrendEntry
-- + Eodhd::Fundamentals::Holders::Institution: Typed entry for an institutional holder.
-- + Eodhd::Fundamentals::Holders::Fund: Typed entry for a fund holder.
-- + Eodhd::Fundamentals::InsiderTransaction: Typed entry for an insider transaction.
-- + Eodhd::Fundamentals::OutstandingShares::Entry: Typed entry for an outstanding shares data point.
-- + Eodhd::Fundamentals::OutstandingShares: Wraps annual and quarterly OutstandingShares::Entry arrays.
-- + Eodhd::Fundamentals::Financials::BalanceSheet
-- + Eodhd::Fundamentals::Financials::IncomeStatement
-- + Eodhd::Fundamentals::Financials::CashFlow
-- ~ Eodhd::Fundamentals::Financials: Build BalanceSheet/IncomeStatement/CashFlow instead of the shared Statement.
-- ~ Eodhd::Fundamentals::Financials::BalanceSheet#yearly, #quarterly: Now sorted arrays of typed entries, was raw hashes.
-- ~ Eodhd::Fundamentals::Earnings#annual, #history, #trend: Now sorted arrays of typed entries, was raw hashes.
-- ~ Eodhd::Fundamentals::Holders#institutions, #funds: Now arrays of typed entries, was raw hashes.
-- ~ Eodhd::Fundamentals#insider_transactions: Now a sorted array of InsiderTransaction, was a raw hash.
-- ~ Eodhd::Fundamentals#outstanding_shares: Now an OutstandingShares object, was a raw hash.
-- + test/Eodhd/Fundamentals_test.rb: Cover the newly wrapped entry types and collections.
-- - Eodhd::Fundamentals::Financials::Statement: Replaced by the three per-statement classes.
-- ~ Eodhd/VERSION: /0.18.1/0.19.0/
+1. ~ CHANGELOG: The Keep a Changelog form, `## [version] - date, summary` over `- ` bullets, --> the form the rest of these gems use: a `## YYYYMMDD` heading per date, newest first, holding each of that date's versions as a summary line over numbered items. No item was reworded, dropped or reordered, and all 111 are still here.
+2. ~ CHANGELOG: 20260719 carried three headings, for 0.18.1, 0.19.0 and 0.19.1, so one day's work read as three; 20251005 carried two, for 0.16.0 and 0.17.0. One heading each now, the versions under them in the same order they were in.
+3. ~ CHANGELOG: The version summaries are the commit subjects, which three of them had not been: 0.19.2 read "populate the .gitignore" against a commit saying `~ .gitignore: + current default contents`, 0.19.1 likewise, and 0.19.0 differed in case. Every other repo here keeps the two identical, which is what makes a summary checkable against something.
+4. ~ CHANGELOG: /# eodhd.rb\/CHANGELOG/# CHANGELOG/, the file's own name being no part of what it records.
+5. ~ Eodhd/VERSION: /0.19.2/0.19.3/
 
-## [0.18.1] - 2026-07-19, urlencode helper naming consistency
-- /Thoran::String::UrlEncode#url_encode/Thoran::String::Urlencode#urlencode/ (url_encode kept as an alias).
-- /Thoran::Hash::XWwwFormUrlEncode#x_www_form_url_encode/Thoran::Hash::XWwwFormUrlencode#x_www_form_urlencode/ (x_www_form_url_encode kept as an alias).
-- ~ lib/Hash/x_www_form_urlencode.rb: Renamed urlencode require path.
-- ~ eodhd.rb.gemspec: - spec.date (RubyGems stamps the build date); tidy spec.require_paths placement.
-- ~ Eodhd/VERSION: /0.18.0/0.18.1/
+0.19.2: ~ .gitignore: + current default contents
 
-## [0.18.0] - 2026-03-20, + fundamentals endpoint
-- + Eodhd::Fundamentals: Model for fundamental data with typed sub-objects.
-- + Eodhd::Fundamentals::General
-- + Eodhd::Fundamentals::Highlights
-- + Eodhd::Fundamentals::Valuation
-- + Eodhd::Fundamentals::SharesStats
-- + Eodhd::Fundamentals::Technicals
-- + Eodhd::Fundamentals::SplitsDividends
-- + Eodhd::Fundamentals::AnalystRatings
-- + Eodhd::Fundamentals::Holders
-- + Eodhd::Fundamentals::ESGScores
-- + Eodhd::Fundamentals::Earnings
-- + Eodhd::Fundamentals::Financials
-- + Eodhd::Fundamentals::Financials::Statement
-- + Eodhd::Client#fundamentals: Fetch fundamental data for a symbol.
-- + Eodhd#fundamentals: Facade method for fundamental data.
-- + test/Eodhd/Fundamentals_test.rb
-- ~ test/Eodhd/Client_test.rb: + tests for fundamentals endpoint.
-- ~ test/Eodhd_test.rb: + test for fundamentals facade method.
-- ~ test/helper.rb: + require 'minitest/mock' for minitest 6 compatibility.
-- ~ Eodhd: Move initialize, web_socket, stream to private.
-- ~ Eodhd: + safe navigation (&.) on exchange and exchange_symbol across all methods.
-- ~ Eodhd#intraday: + exchange_symbol argument.
-- ~ Eodhd#intraday: - default exchange_code of 'US'
-- ~ test/: Reorganise test files into test/Eodhd/ subdirectory.
-- - test/test_all.rb: Previously replaced by Rakefile.
-- /CHANGELOG.txt/CHANGELOG/
-- + LICENSE: MIT License.
-- ~ README.md: Rewrite with intraday, fundamentals, and WebSocket documentation.
+1. ~ .gitignore: + current default contents. The file held only its filename comment, having been committed that way.
+2. ~ Eodhd/VERSION: /0.19.1/0.19.2/
 
-## [0.17.0] - 2025-10-05, + intraday endpoint
-- + Eodhd::Intraday: Model for intraday data.
-- + Eodhd::Client#intraday: Fetch intraday data for US stocks.
-- + Eodhd#intraday: Facade method for intraday data.
-- + Eodhd::Validations#validate_interval: Validation of intraday intervals (1m, 5m, 15m, 30m, 1h, 4h, 1d, 1w, 1mo).
-- ~ Eodhd::Validations#validate_arguments: + interval argument.
-- ~ test/validations_test.rb: + tests for validate_interval.
-- ~ test/client_test.rb: + tests for intraday endpoint.
-- ~ test/eodhd_test.rb: + tests for intraday facade method.
 
-## [0.16.0] - 2025-10-05, + automated tests, + DefaultLogger, fix WebSocket bugs, improve validations
-- + Eodhd::DefaultLogger: A shared logger for Client and WebSocketClient.
-- ~ Eodhd::Client: Use DefaultLogger.
-- ~ Eodhd::Client#initialize: + logger, use_default_logger arguments.
-- + Eodhd::Client#use_logging?
-- ~ Eodhd::Validations: Move validate_arguments() from Client to Validations.
-- ~ Eodhd::Validations: Remove ! from all validation methods (validate_exchange_code, validate_symbol, etc).
-- ~ Eodhd::WebSocketClient: Use DefaultLogger, add logger attribute.
-- ~ Eodhd::WebSocketClient#initialize: + logger, use_default_logger arguments.
-- + Eodhd::WebSocketClient#use_logging?: Check if logging is enabled.
-- ~ Eodhd::WebSocketClient::Handler: Remove duplicate logger code.
-- ~ Eodhd::WebSocketClient::Handler#initialize: + logger argument.
-- ~ Eodhd::WebSocketClient::Handler#handle_response: Fix JSON parsing with proper StandardError rescue.
-- ~ Eodhd::WebSocketClient::Handler#log_error: Use instance logger with use_logging? check.
-- + test/validations_test.rb: Comprehensive validation tests with edge cases.
-- + test/client_test.rb: REST client tests with VCR for all endpoints.
-- + test/eodhd_test.rb: Facade delegation tests.
-- + test/web_socket_client_test.rb: WebSocket client tests with stubbed Iodine.
-- + test/helper.rb: VCR configuration with WebMock.
-- ~ eodhd.gemspec: Add iodine as runtime dependency.
-- ~ .gitignore: + Gemfile.lock.
+## 20260719
 
-## [0.15.0] - 2025-09-16, Add validations, response logging, a version constant, and CHANGELOG.
-- + Eodhd::Validations
-- + Eodhd::Client#validate_arguments
-- ~ Eodhd::Client#exchange_symbol_list: Use validate_arguments().
-- ~ Eodhd::Client#eod_data: Use validate_arguments().
-- ~ Eodhd::Client#eod_bulk_last_day: Use validate_arguments().
-- + Eodhd::Client#log_response
-- ~ Eodhd::Client#do_request: Call log_request() after construction of args.
-- ~ Eodhd::Client#handle_response: Use log_response().
-- + Eodhd::VERSION
-- ~ eodhd.gemspec: Use Eodhd::VERSION and update the date.
-- + CHANGELOG.txt
+0.19.1: ~ README.md: + a blank line before each code fence.
 
-## [0.14.2] - 2025-03-26, Remove reference to currently unused library UnixTime.
-- ~ Eodhd::WebSocketClient: - require 'UnixTime'
+1. ~ README.md: + a blank line before each code fence, without which the highlighting does not render.
+2. ~ Eodhd/VERSION: /0.19.0/0.19.1/
 
-## [0.14.1] - 2025-03-23, Some fixes for the WebSocketClient interface.
-- ~ Eodhd::WebSocketClient: + attr_accessor :consumer
-- ~ Eodhd::WebSocketClient: /attr_accessor :symbols/attr_reader :symbols/
-- + Eodhd::WebSocketClient#symbols=
+0.19.0: Complete the fundamentals model wrapping.
 
-## [0.14.0] - 2025-03-21, Add WebSockets.
-- + Eodhd::WebSocketClient
-- + Eodhd#web_socket
-- + Eodhd#stream
-- + Eodhd#us_quote_stream
-- + Eodhd#us_trade_stream
-- + Eodhd#forex_stream
-- + Eodhd#crypto_stream
-- ~ Eodhd::Error: lib/Eodhd/Client.rb --> lib/Eodhd/Error.rb
+1. + Eodhd::Fundamentals::Financials::BalanceSheet::Entry: Typed entry for a balance sheet period (64 fields).
+2. + Eodhd::Fundamentals::Financials::IncomeStatement::Entry: Typed entry for an income statement period (34 fields).
+3. + Eodhd::Fundamentals::Financials::CashFlow::Entry: Typed entry for a cash flow period (32 fields).
+4. + Eodhd::Fundamentals::Earnings::AnnualEntry
+5. + Eodhd::Fundamentals::Earnings::HistoryEntry
+6. + Eodhd::Fundamentals::Earnings::TrendEntry
+7. + Eodhd::Fundamentals::Holders::Institution: Typed entry for an institutional holder.
+8. + Eodhd::Fundamentals::Holders::Fund: Typed entry for a fund holder.
+9. + Eodhd::Fundamentals::InsiderTransaction: Typed entry for an insider transaction.
+10. + Eodhd::Fundamentals::OutstandingShares::Entry: Typed entry for an outstanding shares data point.
+11. + Eodhd::Fundamentals::OutstandingShares: Wraps annual and quarterly OutstandingShares::Entry arrays.
+12. + Eodhd::Fundamentals::Financials::BalanceSheet
+13. + Eodhd::Fundamentals::Financials::IncomeStatement
+14. + Eodhd::Fundamentals::Financials::CashFlow
+15. ~ Eodhd::Fundamentals::Financials: Build BalanceSheet/IncomeStatement/CashFlow instead of the shared Statement.
+16. ~ Eodhd::Fundamentals::Financials::BalanceSheet#yearly, #quarterly: Now sorted arrays of typed entries, was raw hashes.
+17. ~ Eodhd::Fundamentals::Earnings#annual, #history, #trend: Now sorted arrays of typed entries, was raw hashes.
+18. ~ Eodhd::Fundamentals::Holders#institutions, #funds: Now arrays of typed entries, was raw hashes.
+19. ~ Eodhd::Fundamentals#insider_transactions: Now a sorted array of InsiderTransaction, was a raw hash.
+20. ~ Eodhd::Fundamentals#outstanding_shares: Now an OutstandingShares object, was a raw hash.
+21. + test/Eodhd/Fundamentals_test.rb: Cover the newly wrapped entry types and collections.
+22. - Eodhd::Fundamentals::Financials::Statement: Replaced by the three per-statement classes.
+23. ~ Eodhd/VERSION: /0.18.1/0.19.0/
+
+0.18.1: urlencode helper naming consistency
+
+1. /Thoran::String::UrlEncode#url_encode/Thoran::String::Urlencode#urlencode/ (url_encode kept as an alias).
+2. /Thoran::Hash::XWwwFormUrlEncode#x_www_form_url_encode/Thoran::Hash::XWwwFormUrlencode#x_www_form_urlencode/ (x_www_form_url_encode kept as an alias).
+3. ~ lib/Hash/x_www_form_urlencode.rb: Renamed urlencode require path.
+4. ~ eodhd.rb.gemspec: - spec.date (RubyGems stamps the build date); tidy spec.require_paths placement.
+5. ~ Eodhd/VERSION: /0.18.0/0.18.1/
+
+
+## 20260320
+
+0.18.0: + fundamentals endpoint
+
+1. + Eodhd::Fundamentals: Model for fundamental data with typed sub-objects.
+2. + Eodhd::Fundamentals::General
+3. + Eodhd::Fundamentals::Highlights
+4. + Eodhd::Fundamentals::Valuation
+5. + Eodhd::Fundamentals::SharesStats
+6. + Eodhd::Fundamentals::Technicals
+7. + Eodhd::Fundamentals::SplitsDividends
+8. + Eodhd::Fundamentals::AnalystRatings
+9. + Eodhd::Fundamentals::Holders
+10. + Eodhd::Fundamentals::ESGScores
+11. + Eodhd::Fundamentals::Earnings
+12. + Eodhd::Fundamentals::Financials
+13. + Eodhd::Fundamentals::Financials::Statement
+14. + Eodhd::Client#fundamentals: Fetch fundamental data for a symbol.
+15. + Eodhd#fundamentals: Facade method for fundamental data.
+16. + test/Eodhd/Fundamentals_test.rb
+17. ~ test/Eodhd/Client_test.rb: + tests for fundamentals endpoint.
+18. ~ test/Eodhd_test.rb: + test for fundamentals facade method.
+19. ~ test/helper.rb: + require 'minitest/mock' for minitest 6 compatibility.
+20. ~ Eodhd: Move initialize, web_socket, stream to private.
+21. ~ Eodhd: + safe navigation (&.) on exchange and exchange_symbol across all methods.
+22. ~ Eodhd#intraday: + exchange_symbol argument.
+23. ~ Eodhd#intraday: - default exchange_code of 'US'
+24. ~ test/: Reorganise test files into test/Eodhd/ subdirectory.
+25. - test/test_all.rb: Previously replaced by Rakefile.
+26. /CHANGELOG.txt/CHANGELOG/
+27. + LICENSE: MIT License.
+28. ~ README.md: Rewrite with intraday, fundamentals, and WebSocket documentation.
+
+
+## 20251005
+
+0.17.0: + intraday endpoint
+
+1. + Eodhd::Intraday: Model for intraday data.
+2. + Eodhd::Client#intraday: Fetch intraday data for US stocks.
+3. + Eodhd#intraday: Facade method for intraday data.
+4. + Eodhd::Validations#validate_interval: Validation of intraday intervals (1m, 5m, 15m, 30m, 1h, 4h, 1d, 1w, 1mo).
+5. ~ Eodhd::Validations#validate_arguments: + interval argument.
+6. ~ test/validations_test.rb: + tests for validate_interval.
+7. ~ test/client_test.rb: + tests for intraday endpoint.
+8. ~ test/eodhd_test.rb: + tests for intraday facade method.
+
+0.16.0: + automated tests, + DefaultLogger, fix WebSocket bugs, improve validations
+
+1. + Eodhd::DefaultLogger: A shared logger for Client and WebSocketClient.
+2. ~ Eodhd::Client: Use DefaultLogger.
+3. ~ Eodhd::Client#initialize: + logger, use_default_logger arguments.
+4. + Eodhd::Client#use_logging?
+5. ~ Eodhd::Validations: Move validate_arguments() from Client to Validations.
+6. ~ Eodhd::Validations: Remove ! from all validation methods (validate_exchange_code, validate_symbol, etc).
+7. ~ Eodhd::WebSocketClient: Use DefaultLogger, add logger attribute.
+8. ~ Eodhd::WebSocketClient#initialize: + logger, use_default_logger arguments.
+9. + Eodhd::WebSocketClient#use_logging?: Check if logging is enabled.
+10. ~ Eodhd::WebSocketClient::Handler: Remove duplicate logger code.
+11. ~ Eodhd::WebSocketClient::Handler#initialize: + logger argument.
+12. ~ Eodhd::WebSocketClient::Handler#handle_response: Fix JSON parsing with proper StandardError rescue.
+13. ~ Eodhd::WebSocketClient::Handler#log_error: Use instance logger with use_logging? check.
+14. + test/validations_test.rb: Comprehensive validation tests with edge cases.
+15. + test/client_test.rb: REST client tests with VCR for all endpoints.
+16. + test/eodhd_test.rb: Facade delegation tests.
+17. + test/web_socket_client_test.rb: WebSocket client tests with stubbed Iodine.
+18. + test/helper.rb: VCR configuration with WebMock.
+19. ~ eodhd.gemspec: Add iodine as runtime dependency.
+20. ~ .gitignore: + Gemfile.lock.
+
+
+## 20250916
+
+0.15.0: Add validations, response logging, a version constant, and CHANGELOG.
+
+1. + Eodhd::Validations
+2. + Eodhd::Client#validate_arguments
+3. ~ Eodhd::Client#exchange_symbol_list: Use validate_arguments().
+4. ~ Eodhd::Client#eod_data: Use validate_arguments().
+5. ~ Eodhd::Client#eod_bulk_last_day: Use validate_arguments().
+6. + Eodhd::Client#log_response
+7. ~ Eodhd::Client#do_request: Call log_request() after construction of args.
+8. ~ Eodhd::Client#handle_response: Use log_response().
+9. + Eodhd::VERSION
+10. ~ eodhd.gemspec: Use Eodhd::VERSION and update the date.
+11. + CHANGELOG.txt
+
+
+## 20250326
+
+0.14.2: Remove reference to currently unused library UnixTime.
+
+1. ~ Eodhd::WebSocketClient: - require 'UnixTime'
+
+
+## 20250323
+
+0.14.1: Some fixes for the WebSocketClient interface.
+
+1. ~ Eodhd::WebSocketClient: + attr_accessor :consumer
+2. ~ Eodhd::WebSocketClient: /attr_accessor :symbols/attr_reader :symbols/
+3. + Eodhd::WebSocketClient#symbols=
+
+
+## 20250321
+
+0.14.0: Add WebSockets.
+
+1. + Eodhd::WebSocketClient
+2. + Eodhd#web_socket
+3. + Eodhd#stream
+4. + Eodhd#us_quote_stream
+5. + Eodhd#us_trade_stream
+6. + Eodhd#forex_stream
+7. + Eodhd#crypto_stream
+8. ~ Eodhd::Error: lib/Eodhd/Client.rb --> lib/Eodhd/Error.rb
