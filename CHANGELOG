@@ -1,5 +1,9 @@
 # eodhd.rb/CHANGELOG
 
+## [0.19.2] - 2026-08-21, populate the .gitignore
+- ~ .gitignore: + current default contents. The file held only its filename comment, having been committed that way.
+- ~ Eodhd/VERSION: /0.19.1/0.19.2/
+
 ## [0.19.1] - 2026-07-19, blank lines before the code fences in the README
 - ~ README.md: + a blank line before each code fence, without which the highlighting does not render.
 - ~ Eodhd/VERSION: /0.19.0/0.19.1/
